@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+/* Hotel livery: brass fittings against deep navy, on front-desk stationery.
+   Every colour, face and radius the components use is named here, so
+   `bg-brass` or `font-serif` in a class list resolves to one place. */
+@theme {
+  --color-ink-deep: #0b1620;
+  --color-ink: #16242f;
+  --color-cream: #ece5d7; /* wordmark on the dark ground */
+  --color-mist: #a7b1b9; /* muted text on the dark ground */
+  --color-paper: #f8f6f1;
+  --color-paper-raised: #fffdf9;
+  --color-paper-edge: #ded7c6;
+  --color-paper-dim: #f2efe7; /* disabled inputs, ghost hover */
+  --color-graphite: #3a4a56;
+  --color-graphite-soft: #6a7883;
+  --color-brass: #b4894a;
+  --color-brass-lit: #c99f5e;
+  --color-brass-ink: #6f5420; /* links on paper, dark enough for contrast */
+  --color-rust: #a33f2c;
+  --color-rust-ink: #83301f;
+
+  --font-sans: Archivo, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+
+  --radius-card: 3px;
+
+  --shadow-card:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 28px 60px -22px rgba(4, 10, 16, 0.85);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: linear-gradient(175deg, #16242f 0%, #0b1620 58%, #070f16 100%);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+    }
+  }
+}
