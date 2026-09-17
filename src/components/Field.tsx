@@ -14,6 +14,9 @@ interface FieldProps {
   autoComplete?: string;
   autoFocus?: boolean;
   disabled?: boolean;
+  /** Bounds for date and number inputs; passed straight to the element. */
+  min?: string | number;
+  max?: string | number;
 }
 
 const inputBase =
@@ -37,6 +40,8 @@ export function Field({
   autoComplete,
   autoFocus,
   disabled,
+  min,
+  max,
 }: FieldProps) {
   const isPassword = type === 'password';
   const [showPassword, setShowPassword] = useState(false);
@@ -60,6 +65,8 @@ export function Field({
           autoComplete={autoComplete}
           autoFocus={autoFocus}
           disabled={disabled}
+          min={min}
+          max={max}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           className={`${inputBase} ${isPassword ? 'pr-[70px]' : ''} ${error ? inputInvalid : inputOk}`}

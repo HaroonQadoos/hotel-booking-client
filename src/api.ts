@@ -25,7 +25,17 @@ export interface Profile extends AuthUser {
 
 // The fields the API actually validates. Used to map class-validator messages
 // back onto the inputs that caused them.
-const SERVER_FIELDS = ['name', 'email', 'password', 'newPassword', 'token'] as const;
+const SERVER_FIELDS = [
+  'name',
+  'email',
+  'password',
+  'newPassword',
+  'token',
+  'room',
+  'checkIn',
+  'checkOut',
+  'guests',
+] as const;
 export type ServerField = (typeof SERVER_FIELDS)[number];
 export type FieldErrors = Partial<Record<ServerField, string>>;
 
@@ -77,7 +87,7 @@ function toApiError(body: unknown, status: number): ApiError {
 }
 
 interface RequestOptions {
-  method?: 'GET' | 'POST';
+  method?: 'GET' | 'POST' | 'PATCH';
   body?: unknown;
 }
 
@@ -165,5 +175,93 @@ export function resetPassword(token: string, newPassword: string): Promise<{ mes
   return request<{ message: string }>('/auth/reset-password', {
     method: 'POST',
     body: { token, newPassword },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Rooms and bookings
+
+export type RoomType = 'single' | 'double' | 'suite';
+
+export interface Room {
+  id: string;
+  name: string;
+  description: string;
+  type: RoomType;
+  pricePerNight: number;
+  capacity: number;
+  totalUnits: number;
+  amenities: string[];
+  images: string[];
+  isActive: boolean;
+}
+
+// A room plus how many units are free for a specific stay. 0 is "sold out",
+// and the API includes those on purpose so the page can say so.
+export interface AvailableRoom extends Room {
+  availableUnits: number;
+}
+
+export type BookingStatus = 'pending' | 'confirmed' | 'cancelled';
+
+export interface Booking {
+  id: string;
+  user: string;
+  room: { id: string; name?: string; type?: RoomType };
+  /** "YYYY-MM-DD" — a calendar date, not a timestamp. */
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  guests: number;
+  totalPrice: number;
+  status: BookingStatus;
+  createdAt: string;
+}
+
+// The dates a search or booking is for. Kept as the "YYYY-MM-DD" strings the
+// API speaks; the page never needs a Date object for them.
+export interface Stay {
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+}
+
+function stayQuery(stay: Stay): string {
+  return new URLSearchParams({
+    checkIn: stay.checkIn,
+    checkOut: stay.checkOut,
+    guests: String(stay.guests),
+  }).toString();
+}
+
+// The catalogue: what the hotel sells, with no dates in play.
+export function getRooms(guests?: number): Promise<Room[]> {
+  const query = guests ? `?guests=${guests}` : '';
+  return request<Room[]>(`/rooms${query}`);
+}
+
+export function getRoom(id: string): Promise<Room> {
+  return request<Room>(`/rooms/${encodeURIComponent(id)}`);
+}
+
+// The same catalogue for a specific stay, each room with its free units.
+export function searchAvailability(stay: Stay): Promise<AvailableRoom[]> {
+  return request<AvailableRoom[]>(`/availability?${stayQuery(stay)}`);
+}
+
+export function createBooking(roomId: string, stay: Stay): Promise<Booking> {
+  return request<Booking>('/bookings', {
+    method: 'POST',
+    body: { room: roomId, ...stay },
+  });
+}
+
+export function getMyBookings(): Promise<Booking[]> {
+  return request<Booking[]>('/bookings/me');
+}
+
+export function cancelBooking(id: string): Promise<Booking> {
+  return request<Booking>(`/bookings/${encodeURIComponent(id)}/cancel`, {
+    method: 'PATCH',
   });
 }

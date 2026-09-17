@@ -1,32 +1,39 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import type { ReactElement } from 'react';
 import { useAuth } from './auth';
 import { BRAND } from './brand';
+import { AppLayout } from './components/AppLayout';
 import { KeyTag } from './components/KeyTag';
 import { Home } from './pages/Home';
+import { MyBookings } from './pages/MyBookings';
+import { RoomDetail } from './pages/RoomDetail';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Login } from './pages/Login';
 import { ResetPassword } from './pages/ResetPassword';
 import { Signup } from './pages/Signup';
 import { Startup } from './pages/Startup';
 
+// Auth pages make no sense to a signed-in user. `from` is where a guest was
+// sent to sign in from; honouring it here as well as in Login means the page
+// they wanted wins no matter which of the two redirects fires first.
 function RedirectIfSignedIn({ children }: { children: ReactElement }) {
   const { user, ready } = useAuth();
+  const from = (useLocation().state as { from?: string } | null)?.from ?? '/';
   if (!ready) return null;
-  if (user) return <Navigate to="/" replace />;
+  if (user) return <Navigate to={from} replace />;
   return children;
 }
 
-function HomeEntry() {
+// Sends a signed-out visitor to sign in, remembering where they were so
+// Login can bring them straight back.
+function RequireSignedIn({ children }: { children: ReactElement }) {
   const { user, ready } = useAuth();
+  const location = useLocation();
   if (!ready) return null;
-  return user ? (
-    <CardLayout>
-      <Home />
-    </CardLayout>
-  ) : (
-    <Startup />
-  );
+  if (!user) {
+    return <Navigate to="/login" replace state={{ from: location.pathname + location.search }} />;
+  }
+  return children;
 }
 
 // The card pages share a small brand header. The startup screen does not use
@@ -51,7 +58,20 @@ function CardLayout({ children }: { children?: ReactElement }) {
 export function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomeEntry />} />
+      {/* Public: guests browse rooms and availability before they sign up. */}
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/rooms/:id" element={<RoomDetail />} />
+        <Route
+          path="/bookings"
+          element={
+            <RequireSignedIn>
+              <MyBookings />
+            </RequireSignedIn>
+          }
+        />
+      </Route>
+
       <Route
         path="/startup"
         element={

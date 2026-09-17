@@ -13,8 +13,12 @@ import { FormNotice } from '../components/FormNotice';
 export function Login() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  // A one-time confirmation handed over by the reset-password page.
-  const notice = (useLocation().state as { notice?: string } | null)?.notice;
+  // `notice` is a one-time confirmation handed over by the reset-password
+  // page; `from` is where a guest was sent here from (a room they were about
+  // to book, say) and where they go back to on success.
+  const state = useLocation().state as { notice?: string; from?: string } | null;
+  const notice = state?.notice;
+  const from = state?.from ?? '/';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +44,7 @@ export function Login() {
     setSubmitting(true);
     try {
       await signIn(email.trim(), password);
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     } catch (error) {
       if (error instanceof ApiError && error.status === 401) {
         // The API answers both "no such user" and "wrong password" with the
@@ -64,7 +68,11 @@ export function Login() {
       <CardTitle>Sign in</CardTitle>
       <CardSwitch>
         New here?{' '}
-        <Link to="/signup" className="text-brass-ink underline underline-offset-2 hover:text-ink">
+        <Link
+          to="/signup"
+          state={{ from }}
+          className="text-brass-ink underline underline-offset-2 hover:text-ink"
+        >
           Create an account
         </Link>
       </CardSwitch>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ApiError } from '../api';
 import type { FieldErrors } from '../api';
 import { useAuth } from '../auth';
@@ -14,6 +14,9 @@ type Errors = FieldErrors & { confirmPassword?: string };
 export function Signup() {
   const { signUp } = useAuth();
   const navigate = useNavigate();
+  // Where to land afterwards — a room the guest was about to book, if that
+  // is what brought them here. Login hands it over when they switch pages.
+  const from = (useLocation().state as { from?: string } | null)?.from ?? '/';
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -53,7 +56,7 @@ export function Signup() {
     setSubmitting(true);
     try {
       await signUp({ name: name.trim(), email: email.trim(), password });
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
         setErrors({ email: 'This email is already registered.' });
@@ -74,7 +77,11 @@ export function Signup() {
       <CardTitle>Create your account</CardTitle>
       <CardSwitch>
         Already have an account?{' '}
-        <Link to="/login" className="text-brass-ink underline underline-offset-2 hover:text-ink">
+        <Link
+          to="/login"
+          state={{ from }}
+          className="text-brass-ink underline underline-offset-2 hover:text-ink"
+        >
           Sign in
         </Link>
       </CardSwitch>
