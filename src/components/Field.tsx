@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 interface FieldProps {
@@ -37,7 +38,10 @@ export function Field({
   autoFocus,
   disabled,
 }: FieldProps) {
+  const isPassword = type === 'password';
+  const [showPassword, setShowPassword] = useState(false);
   const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
+  const inputType = isPassword && showPassword ? 'text' : type;
 
   return (
     <div className="mb-[15px]">
@@ -47,18 +51,32 @@ export function Field({
         </label>
         {labelAside}
       </div>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        autoComplete={autoComplete}
-        autoFocus={autoFocus}
-        disabled={disabled}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy}
-        className={`${inputBase} ${error ? inputInvalid : inputOk}`}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          type={inputType}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          autoComplete={autoComplete}
+          autoFocus={autoFocus}
+          disabled={disabled}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy}
+          className={`${inputBase} ${isPassword ? 'pr-[70px]' : ''} ${error ? inputInvalid : inputOk}`}
+        />
+        {isPassword ? (
+          <button
+            type="button"
+            onClick={() => setShowPassword((visible) => !visible)}
+            disabled={disabled}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-pressed={showPassword}
+            className=" cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 px-1 text-[12px] font-medium text-brass-ink underline underline-offset-2 hover:text-ink disabled:text-graphite-soft"
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        ) : null}
+      </div>
       {error ? (
         <p className="mt-[5px] text-[12.5px] text-rust" id={`${id}-error`}>
           {error}
