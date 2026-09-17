@@ -10,13 +10,6 @@ import { ResetPassword } from './pages/ResetPassword';
 import { Signup } from './pages/Signup';
 import { Startup } from './pages/Startup';
 
-function RequireAuth({ children }: { children: ReactElement }) {
-  const { user, ready } = useAuth();
-  if (!ready) return null;
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
-}
-
 function RedirectIfSignedIn({ children }: { children: ReactElement }) {
   const { user, ready } = useAuth();
   if (!ready) return null;
@@ -24,10 +17,22 @@ function RedirectIfSignedIn({ children }: { children: ReactElement }) {
   return children;
 }
 
+function HomeEntry() {
+  const { user, ready } = useAuth();
+  if (!ready) return null;
+  return user ? (
+    <CardLayout>
+      <Home />
+    </CardLayout>
+  ) : (
+    <Startup />
+  );
+}
+
 // The card pages share a small brand header. The startup screen does not use
 // this layout — its logo IS the page, so a second small one above it would
 // just be clutter.
-function CardLayout() {
+function CardLayout({ children }: { children?: ReactElement }) {
   return (
     <main className="grid min-h-dvh place-items-center px-5 py-10">
       <div className="w-full max-w-[400px]">
@@ -37,7 +42,7 @@ function CardLayout() {
           </span>
           <span className="font-serif text-[27px] tracking-[0.01em] text-cream">{BRAND}</span>
         </div>
-        <Outlet />
+        {children ?? <Outlet />}
       </div>
     </main>
   );
@@ -46,6 +51,7 @@ function CardLayout() {
 export function App() {
   return (
     <Routes>
+      <Route path="/" element={<HomeEntry />} />
       <Route
         path="/startup"
         element={
@@ -83,14 +89,6 @@ export function App() {
         {/* Not guarded: the emailed link has to work even if some other
             account happens to be signed in on this browser. */}
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          }
-        />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
