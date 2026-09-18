@@ -112,7 +112,7 @@ export function MyBookings() {
   const past = bookings?.filter((b) => !upcoming.includes(b)) ?? [];
 
   return (
-    <Container className="py-8">
+    <Container className="pt-24 pb-10 sm:pt-28">
       <PageTitle>My bookings</PageTitle>
 
       {error ? <Notice tone="error">{error}</Notice> : notice ? <Notice>{notice}</Notice> : null}

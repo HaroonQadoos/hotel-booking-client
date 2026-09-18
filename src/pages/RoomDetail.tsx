@@ -85,7 +85,7 @@ export function RoomDetail() {
 
   if (loadError) {
     return (
-      <Container className="py-8">
+      <Container className="pt-24 pb-10 sm:pt-28">
         <Notice tone="error">{loadError}</Notice>
         <Link to="/" className="text-brass-lit underline underline-offset-2 hover:text-cream">
           Back to all rooms
@@ -95,7 +95,7 @@ export function RoomDetail() {
   }
   if (!room) {
     return (
-      <Container className="py-8">
+      <Container className="pt-24 pb-10 sm:pt-28">
         <p className="text-mist">Loading room…</p>
       </Container>
     );
@@ -104,7 +104,7 @@ export function RoomDetail() {
   const nights = stay ? nightsBetween(stay.checkIn, stay.checkOut) : 0;
 
   return (
-    <Container className="py-8">
+    <Container className="pt-24 pb-10 sm:pt-28">
       <Link
         to={stay ? `/?${new URLSearchParams({ checkIn: stay.checkIn, checkOut: stay.checkOut, guests: String(stay.guests) })}` : '/'}
         className="mb-5 inline-block text-[14px] text-mist no-underline hover:text-cream"
