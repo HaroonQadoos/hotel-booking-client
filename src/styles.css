@@ -37,7 +37,9 @@
 
   body {
     min-height: 100dvh;
-    background: linear-gradient(175deg, #16242f 0%, #0b1620 58%, #070f16 100%);
+    /* background: linear-gradient(175deg, #16242f 0%, #0b1620 58%, #070f16 100%);
+     */
+     background:white;
     color: var(--color-paper);
     font-family: var(--font-sans);
     font-size: 15px;

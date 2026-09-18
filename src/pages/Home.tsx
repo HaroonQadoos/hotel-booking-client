@@ -86,7 +86,7 @@ export function Home() {
         {/* Pulled up over the hero's fade so the two read as one composition. */}
         <section
           id="search"
-          className="relative -mt-10 mb-8 scroll-mt-28 rounded-card bg-paper px-6 pt-5 pb-1 text-ink shadow-card sm:mx-6 sm:-mt-12"
+          className="relative -mt-10 mb-8 scroll-mt-4 rounded-card bg-paper px-6 pt-5 pb-1 text-ink shadow-card sm:mx-6 sm:-mt-12"
         >
           <StayForm
             // Remount when the URL changes so a back/forward navigation

@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 // from the bottom, one from the left where the headline is.
 export function Hero({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
   return (
-    <div className="px-3 pt-3 sm:px-4 sm:pt-4">
+    <div className="px-3 py-3 sm:px-8 sm:py-8">
       {/* min-height, not height: on a short landscape phone the copy still
           needs room, and the card grows rather than clipping it. */}
       <section className="relative isolate flex min-h-[calc(100dvh-12px)] flex-col overflow-hidden rounded-[28px] bg-ink-deep sm:min-h-[calc(100dvh-16px)] sm:rounded-[36px]">

@@ -15,15 +15,17 @@ const pillCta =
   'rounded-full bg-cream px-[18px] py-[9px] text-[14px] font-medium whitespace-nowrap text-ink-deep no-underline ' +
   'transition-colors duration-[120ms] hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass';
 
-// The frame for every page a guest browses. The bar is a floating pill fixed
-// to the top rather than a full-width strip, so on the home page it sits on
-// the hero photograph; other pages leave room for it with top padding.
+// The frame for every page a guest browses. The bar is a floating pill laid
+// over the top of the page rather than a full-width strip: on the home page
+// that puts it inside the hero card, and it scrolls away with the photo
+// instead of following the reader down. Other pages pad the top to clear it.
 export function AppLayout() {
   const { user, ready, signOut } = useAuth();
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex justify-center px-4 pt-4 sm:pt-6">
+    <div className="relative flex min-h-dvh flex-col">
+      {/* Top offset = the hero's inset plus a margin inside its rounded edge. */}
+      <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center px-6 pt-6 sm:px-8 sm:pt-8">
         <div className="pointer-events-auto flex w-full max-w-[860px] items-center gap-1 rounded-full border border-cream/10 bg-ink-deep/85 py-2 pr-2 pl-5 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-md sm:gap-2">
           <Link
             to="/"
