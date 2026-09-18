@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as api from '../api';
 import type { Booking } from '../api';
+import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
 import { PageTitle } from '../components/PageTitle';
 import { StatusBadge } from '../components/StatusBadge';
@@ -111,7 +112,7 @@ export function MyBookings() {
   const past = bookings?.filter((b) => !upcoming.includes(b)) ?? [];
 
   return (
-    <>
+    <Container className="py-8">
       <PageTitle>My bookings</PageTitle>
 
       {error ? <Notice tone="error">{error}</Notice> : notice ? <Notice>{notice}</Notice> : null}
@@ -141,7 +142,7 @@ export function MyBookings() {
           ) : null}
         </>
       )}
-    </>
+    </Container>
   );
 }
 

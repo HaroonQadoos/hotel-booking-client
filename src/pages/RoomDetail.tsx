@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as api from '../api';
 import type { Room, Stay } from '../api';
 import { useAuth } from '../auth';
+import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
 import { StayForm } from '../components/StayForm';
 import { ROOM_TYPE_LABEL, formatPrice, nightsBetween, plural } from '../format';
@@ -84,20 +85,26 @@ export function RoomDetail() {
 
   if (loadError) {
     return (
-      <>
+      <Container className="py-8">
         <Notice tone="error">{loadError}</Notice>
         <Link to="/" className="text-brass-lit underline underline-offset-2 hover:text-cream">
           Back to all rooms
         </Link>
-      </>
+      </Container>
     );
   }
-  if (!room) return <p className="text-mist">Loading room…</p>;
+  if (!room) {
+    return (
+      <Container className="py-8">
+        <p className="text-mist">Loading room…</p>
+      </Container>
+    );
+  }
 
   const nights = stay ? nightsBetween(stay.checkIn, stay.checkOut) : 0;
 
   return (
-    <>
+    <Container className="py-8">
       <Link
         to={stay ? `/?${new URLSearchParams({ checkIn: stay.checkIn, checkOut: stay.checkOut, guests: String(stay.guests) })}` : '/'}
         className="mb-5 inline-block text-[14px] text-mist no-underline hover:text-cream"
@@ -174,6 +181,6 @@ export function RoomDetail() {
           )}
         </aside>
       </div>
-    </>
+    </Container>
   );
 }

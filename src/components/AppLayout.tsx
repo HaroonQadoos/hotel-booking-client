@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { BRAND } from '../brand';
+import { Container } from './Container';
 import { KeyTag } from './KeyTag';
 
 const navLink =
@@ -12,13 +13,14 @@ const navActive = 'bg-brass/15 text-brass-lit';
 // The frame for every page a guest browses: a slim header on the dark ground
 // with the wordmark, the two places to go, and where the session stands.
 // Unlike CardLayout it is wide — a room list does not fit on a 400px card.
+// The header is sticky and translucent so the hero image runs under it.
 export function AppLayout() {
   const { user, ready, signOut } = useAuth();
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b border-cream/10">
-        <div className="mx-auto flex w-full max-w-[1040px] items-center gap-2 px-4 py-4 sm:gap-4 sm:px-5">
+      <header className="sticky top-0 z-20 border-b border-cream/10 bg-ink-deep/85 backdrop-blur-md">
+        <Container className="flex items-center gap-2 py-4 sm:gap-4">
           <Link
             to="/"
             className="flex items-center gap-[9px] no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
@@ -66,19 +68,22 @@ export function AppLayout() {
                 <Link to="/login" className={`${navLink} ${navIdle}`}>
                   Sign in
                 </Link>
+                {/* Hidden on phones: with the wordmark and nav there is no room,
+                    and the sign-in page links to sign-up anyway. */}
                 <Link
                   to="/signup"
-                  className={`${navLink} border border-brass text-brass-lit hover:bg-brass/15`}
+                  className={`${navLink} hidden border border-brass text-brass-lit hover:bg-brass/15 sm:inline-block`}
                 >
                   Create account
                 </Link>
               </>
             )}
           </div>
-        </div>
+        </Container>
       </header>
 
-      <main className="mx-auto w-full max-w-[1040px] flex-1 px-5 py-8">
+      {/* No column here: a page decides which of its sections sit in one. */}
+      <main className="flex-1">
         <Outlet />
       </main>
     </div>
