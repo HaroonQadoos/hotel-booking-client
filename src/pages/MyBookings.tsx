@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import * as api from '../api';
 import type { Booking } from '../api';
 import { Container } from '../components/Container';
+import { KeyTag } from '../components/KeyTag';
 import { Notice } from '../components/Notice';
 import { PageTitle } from '../components/PageTitle';
 import { StatusBadge } from '../components/StatusBadge';
@@ -112,20 +113,42 @@ export function MyBookings() {
   const past = bookings?.filter((b) => !upcoming.includes(b)) ?? [];
 
   return (
-    <Container className="pt-24 pb-10">
-      <PageTitle>My bookings</PageTitle>
+    // Clears the floating bar with room to breathe, and leaves space before
+    // the footer so a short list does not look squeezed.
+    <Container className="pt-32 pb-20 sm:pt-40 sm:pb-28">
+      <PageTitle
+        eyebrow="Your stays"
+        aside={bookings && bookings.length > 0 ? plural(bookings.length, 'booking') : undefined}
+      >
+        My bookings
+      </PageTitle>
 
       {error ? <Notice tone="error">{error}</Notice> : notice ? <Notice>{notice}</Notice> : null}
 
       {bookings === null ? (
-        <p className="text-mist">Loading your bookings…</p>
+        <p className="text-graphite-soft">Loading your bookings…</p>
       ) : bookings.length === 0 ? (
-        <p className="text-mist">
-          You have no bookings yet.{' '}
-          <Link to="/" className="text-brass-lit underline underline-offset-2 hover:text-cream">
+        <div className="flex flex-col items-center rounded-[28px] border border-paper-edge bg-paper px-6 py-14 text-center sm:py-20">
+          <span className="mb-6 grid h-16 w-16 place-items-center rounded-full bg-ink-deep text-brass-lit">
+            <KeyTag size={28} />
+          </span>
+          <h2 className="mb-2 font-serif text-[32px] leading-tight font-normal text-ink">No stays yet</h2>
+          <p className="mb-8 max-w-[40ch] text-[15px] text-graphite">
+            When you book a room it will appear here, with your dates, the total and the option to cancel.
+          </p>
+          <Link
+            to="/"
+            state={{ scrollTo: 'search' }}
+            className="inline-flex items-center gap-3 rounded-full bg-ink-deep py-2 pr-2 pl-6 text-[15px] font-medium text-cream no-underline transition-colors duration-[120ms] hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
+          >
             Find a room
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-brass text-ink-deep">
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </Link>
-        </p>
+        </div>
       ) : (
         <>
           <Section title="Upcoming" empty="Nothing coming up.">
@@ -156,10 +179,10 @@ function Section({
   children: ReactNode[];
 }) {
   return (
-    <section className="mb-8">
-      <h2 className="mb-3 text-[12px] font-medium tracking-[0.08em] text-mist uppercase">{title}</h2>
+    <section className="mb-12">
+      <h2 className="mb-4 text-[12px] font-medium tracking-[0.14em] text-brass-ink uppercase">{title}</h2>
       {children.length === 0 ? (
-        <p className="text-[14px] text-mist">{empty}</p>
+        <p className="text-[14px] text-graphite-soft">{empty}</p>
       ) : (
         <ul className="flex flex-col gap-3">{children}</ul>
       )}

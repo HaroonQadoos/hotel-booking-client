@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { BRAND } from '../brand';
 import { Footer } from './Footer';
 import { KeyTag } from './KeyTag';
+import { Avatar, ProfileMenu } from './ProfileMenu';
 
 const focusRing = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass';
 
@@ -39,15 +40,36 @@ export function AppLayout() {
   const [menuOpenOn, setMenuOpenOn] = useState<string | null>(null);
   const menuOpen = menuOpenOn === pathname;
   const setMenuOpen = (open: boolean) => setMenuOpenOn(open ? pathname : null);
+  // The profile card works the same way; opening one closes the other.
+  const [profileOpenOn, setProfileOpenOn] = useState<string | null>(null);
+  const profileOpen = profileOpenOn === pathname;
+  const toggleProfile = () => {
+    setMenuOpenOn(null);
+    setProfileOpenOn(profileOpen ? null : pathname);
+  };
+  const bar = useRef<HTMLDivElement>(null);
 
+  // Escape, or a press anywhere outside the bar and its drop-downs, closes
+  // whichever one is open.
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !profileOpen) return;
+    const close = () => {
+      setMenuOpenOn(null);
+      setProfileOpenOn(null);
+    };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpenOn(null);
+      if (e.key === 'Escape') close();
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (!bar.current?.contains(e.target as Node)) close();
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [menuOpen]);
+    document.addEventListener('pointerdown', onPointer);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointer);
+    };
+  }, [menuOpen, profileOpen]);
 
   return (
     <div className="relative flex min-h-dvh flex-col">
@@ -59,7 +81,7 @@ export function AppLayout() {
           isHome ? 'top-3 pt-3 sm:top-6 sm:pt-8' : 'top-2 pt-2 sm:top-3 sm:pt-3'
         }`}
       >
-        <div className="pointer-events-auto relative w-full max-w-[1280px]">
+        <div ref={bar} className="pointer-events-auto relative w-full max-w-[1280px]">
           <div className={`flex items-center gap-1 rounded-full border border-cream/10 bg-ink-deep/85 py-2 pr-2 pl-4 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-md sm:gap-2 sm:pr-3 sm:pl-6 ${isHome ? 'sm:py-3' : 'sm:py-2'}`}>
             <Link to="/" className={`mr-2 flex items-center gap-[8px] no-underline ${focusRing}`}>
               <span className="flex text-brass">
@@ -94,16 +116,7 @@ export function AppLayout() {
                 name a moment later reads as a glitch. */}
             <div className="hidden items-center gap-2 sm:flex">
               {!ready ? null : user ? (
-                <>
-                  <span className="hidden px-2 text-[14px] text-mist md:inline">{user.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => void signOut()}
-                    className={`${pillCta} cursor-pointer border-0`}
-                  >
-                    Sign out
-                  </button>
-                </>
+                <AvatarButton name={user.name} open={profileOpen} onClick={toggleProfile} />
               ) : (
                 <>
                   <Link to="/login" className={`${navLink} ${navIdle}`}>
@@ -116,13 +129,23 @@ export function AppLayout() {
               )}
             </div>
 
+            {/* On phones the avatar sits beside the menu button. */}
+            {ready && user ? (
+              <div className="ml-auto sm:hidden">
+                <AvatarButton name={user.name} open={profileOpen} onClick={toggleProfile} />
+              </div>
+            ) : null}
+
             <button
               type="button"
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => {
+                setProfileOpenOn(null);
+                setMenuOpen(!menuOpen);
+              }}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              className={`ml-auto flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-0 bg-cream/10 text-cream transition-colors duration-[120ms] hover:bg-cream/15 sm:hidden ${focusRing}`}
+              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-0 bg-cream/10 text-cream transition-colors duration-[120ms] hover:bg-cream/15 sm:hidden ${user ? 'ml-2' : 'ml-auto'} ${focusRing}`}
             >
               {/* Three brass-tipped bars that fold into an X. */}
               <span className="relative block h-[12px] w-[18px]" aria-hidden="true">
@@ -171,9 +194,14 @@ export function AppLayout() {
               <div className="mt-2 border-t border-cream/10 px-2 pt-3 pb-1">
                 {user ? (
                   <>
-                    <p className="px-2 pb-3 text-[13px] text-mist">
-                      Signed in as <span className="text-cream">{user.name}</span>
-                    </p>
+                    <button
+                      type="button"
+                      onClick={toggleProfile}
+                      className={`mb-2 flex w-full cursor-pointer items-center gap-3 rounded-2xl border-0 bg-transparent px-2 py-2 text-left text-[15px] text-cream transition-colors duration-[120ms] hover:bg-cream/5 ${focusRing}`}
+                    >
+                      <Avatar name={user.name} />
+                      Your profile
+                    </button>
                     <button
                       type="button"
                       onClick={() => {
@@ -201,6 +229,19 @@ export function AppLayout() {
               </div>
             ) : null}
           </div>
+
+          {/* The profile card: under the avatar on wide screens, full width
+              under the bar on phones, like the menu. */}
+          {user && profileOpen ? (
+            <div className="absolute inset-x-0 top-full mt-2 sm:right-0 sm:left-auto sm:w-[300px]">
+              <ProfileMenu
+                id="profile-menu"
+                user={user}
+                onClose={() => setProfileOpenOn(null)}
+                onSignOut={() => void signOut()}
+              />
+            </div>
+          ) : null}
         </div>
       </header>
 
@@ -210,6 +251,25 @@ export function AppLayout() {
       </main>
 
       <Footer />
+
     </div>
+  );
+}
+
+// The signed-in guest's initial in a brass circle; opens their profile card.
+function AvatarButton({ name, open, onClick }: { name: string; open: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-haspopup="dialog"
+      aria-expanded={open}
+      aria-controls="profile-menu"
+      aria-label="Your profile"
+      title="Your profile"
+      className={`cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform duration-[120ms] hover:scale-105 ${focusRing}`}
+    >
+      <Avatar name={name} />
+    </button>
   );
 }
