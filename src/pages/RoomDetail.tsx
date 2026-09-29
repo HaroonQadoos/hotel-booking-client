@@ -87,7 +87,7 @@ export function RoomDetail() {
 
   if (loadError) {
     return (
-      <Container className="pt-28 pb-10 sm:pt-36">
+      <Container className="pt-24 pb-10 sm:pt-28">
         <Notice tone="error">{loadError}</Notice>
         <Link to="/" className="text-brass-ink underline underline-offset-2 hover:text-ink">
           Back to all rooms
@@ -99,7 +99,7 @@ export function RoomDetail() {
     return (
       <>
         {/* Same frame as the loaded banner, so the page does not jump. */}
-        <div className="px-3 pt-3 sm:px-8 sm:pt-8">
+        <div className="px-3 pt-2 sm:px-8 sm:pt-3">
           <div className="h-[62dvh] min-h-[420px] animate-pulse rounded-[28px] bg-ink-deep/90 sm:rounded-[36px]" />
         </div>
         <Container className="py-10">
@@ -118,7 +118,7 @@ export function RoomDetail() {
     <>
       {/* The banner: the room's photo in the same inset, rounded frame as the
           home page hero, with the floating nav bar over its top edge. */}
-      <div className="px-3 pt-3 sm:px-8 sm:pt-8">
+      <div className="px-3 pt-2 sm:px-8 sm:pt-3">
         <section className="relative isolate flex h-[62dvh] min-h-[420px] flex-col overflow-hidden rounded-[28px] bg-ink-deep sm:min-h-[480px] sm:rounded-[36px]">
           <img
             src={roomPhoto(room)}
@@ -132,7 +132,7 @@ export function RoomDetail() {
             className="absolute inset-0 -z-10 bg-linear-to-t from-ink-deep/90 via-ink-deep/30 via-55% to-ink-deep/40"
           />
 
-          <div className="flex flex-1 flex-col justify-end px-6 pt-28 pb-8 sm:px-12 sm:pb-12 lg:px-16 lg:pb-14">
+          <div className="flex flex-1 flex-col justify-end px-6 pt-24 pb-8 sm:px-12 sm:pb-12 lg:px-16 lg:pb-14">
             <Link
               to={backHref}
               className="mb-auto inline-flex w-fit items-center gap-2 rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-2 text-[14px] text-cream no-underline backdrop-blur-sm transition-colors duration-[120ms] hover:bg-ink-deep/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:mt-4"

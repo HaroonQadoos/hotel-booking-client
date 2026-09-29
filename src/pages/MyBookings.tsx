@@ -112,7 +112,7 @@ export function MyBookings() {
   const past = bookings?.filter((b) => !upcoming.includes(b)) ?? [];
 
   return (
-    <Container className="pt-24 pb-10 sm:pt-28">
+    <Container className="pt-24 pb-10">
       <PageTitle>My bookings</PageTitle>
 
       {error ? <Notice tone="error">{error}</Notice> : notice ? <Notice>{notice}</Notice> : null}

@@ -1,0 +1,44 @@
+- generic [ref=f24e3]:
+  - banner:
+    - generic [ref=f24e5]:
+      - link "Nightly" [ref=f24e6] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=f24e13] [cursor=pointer]
+  - main [ref=f24e18]:
+    - paragraph [ref=f24e22]: Loading room…
+  - contentinfo [ref=f24e23]:
+    - generic [ref=f24e24]:
+      - generic [ref=f24e26]:
+        - generic [ref=f24e27]:
+          - paragraph [ref=f24e28]: Your next night
+          - heading "A room on the water is waiting." [level=2] [ref=f24e29]
+        - link [ref=f24e30] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f24e34]:
+        - generic [ref=f24e35]:
+          - link "Nightly" [ref=f24e36] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f24e43]: Rooms by the night, on the water. Choose your dates, see exactly what is free, and book in a minute.
+        - navigation "Stay" [ref=f24e44]:
+          - heading "Stay" [level=3] [ref=f24e45]
+          - list [ref=f24e46]:
+            - listitem [ref=f24e47]:
+              - link "All rooms" [ref=f24e48] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f24e49]:
+              - link "Room categories" [ref=f24e50] [cursor=pointer]:
+                - /url: /categories
+            - listitem [ref=f24e51]:
+              - link "Check availability" [ref=f24e52] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f24e53]:
+              - link "My bookings" [ref=f24e54] [cursor=pointer]:
+                - /url: /bookings
+        - navigation "Account" [ref=f24e55]:
+          - heading "Account" [level=3] [ref=f24e56]
+      - paragraph [aria-hidden]: Nightly
+      - generic [ref=f24e57]:
+        - paragraph [ref=f24e58]: © 2026 Nightly. Booked by the night.
+        - button "Back to top" [ref=f24e59] [cursor=pointer]:
+          - text: Back to top
+          - generic [aria-hidden] [ref=f24e60]: ↑

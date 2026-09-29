@@ -1,0 +1,21 @@
+- main [ref=f22e190]:
+  - generic [ref=f22e191]:
+    - generic [ref=f22e192]: Nightly
+    - generic [ref=f22e199]:
+      - heading "Sign in" [level=1] [ref=f22e200]
+      - paragraph [ref=f22e201]:
+        - text: New here?
+        - link "Create an account" [ref=f22e202] [cursor=pointer]:
+          - /url: /signup
+      - generic [ref=f22e203]:
+        - generic [ref=f22e204]: Email
+        - textbox "Email" [active] [ref=f22e207]
+      - generic [ref=f22e208]:
+        - generic [ref=f22e209]:
+          - generic [ref=f22e210]: Password
+          - link "Forgot password?" [ref=f22e211] [cursor=pointer]:
+            - /url: /forgot-password
+        - generic [ref=f22e212]:
+          - textbox "Password" [ref=f22e213]
+          - button "Show password" [ref=f22e214] [cursor=pointer]: Show
+      - button "Sign in" [ref=f22e215] [cursor=pointer]

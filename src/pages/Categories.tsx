@@ -78,7 +78,7 @@ export function Categories() {
   return (
     <>
       {/* A shorter cousin of the home hero: same frame, same photo. */}
-      <div className="px-3 pt-3 sm:px-8 sm:pt-8">
+      <div className="px-3 pt-2 sm:px-8 sm:pt-3">
         <section className="relative isolate flex min-h-[380px] flex-col overflow-hidden rounded-[28px] bg-ink-deep sm:min-h-[460px] sm:rounded-[36px]">
           <img
             src="/hero.jpg"
@@ -90,7 +90,7 @@ export function Categories() {
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-linear-to-t from-ink-deep/90 via-ink-deep/45 to-ink-deep/40"
           />
-          <div className="flex flex-1 flex-col justify-end px-6 pt-32 pb-10 sm:px-12 sm:pb-14 lg:px-16">
+          <div className="flex flex-1 flex-col justify-end px-6 pt-24 pb-10 sm:px-12 sm:pb-14 lg:px-16">
             <p className="mb-3 text-[12px] font-medium tracking-[0.14em] text-brass-lit uppercase">Room categories</p>
             <h1 className="mb-4 max-w-[18ch] font-serif text-[44px] leading-[1.02] font-normal text-cream sm:text-[68px]">
               Find the room that fits the stay.

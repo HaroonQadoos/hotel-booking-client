@@ -1,0 +1,54 @@
+- generic [ref=f23e3]:
+  - banner:
+    - generic [ref=f23e5]:
+      - link "Nightly" [ref=f23e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f23e13]:
+        - link "Rooms" [ref=f23e14] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f23e15] [cursor=pointer]:
+          - /url: /categories
+        - link "My bookings" [ref=f23e16] [cursor=pointer]:
+          - /url: /bookings
+  - main [ref=f23e17]:
+    - generic [ref=f23e22]:
+      - paragraph [ref=f23e23]: Room categories
+      - heading "Find the room that fits the stay." [level=1] [ref=f23e24]
+      - paragraph [ref=f23e25]: Every kind of room we offer, booked by the night.
+    - paragraph [ref=f23e27]: Loading categories…
+  - contentinfo [ref=f23e28]:
+    - generic [ref=f23e29]:
+      - generic [ref=f23e31]:
+        - generic [ref=f23e32]:
+          - paragraph [ref=f23e33]: Your next night
+          - heading "A room on the water is waiting." [level=2] [ref=f23e34]
+        - link [ref=f23e35] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f23e39]:
+        - generic [ref=f23e40]:
+          - link "Nightly" [ref=f23e41] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f23e48]: Rooms by the night, on the water. Choose your dates, see exactly what is free, and book in a minute.
+        - navigation "Stay" [ref=f23e49]:
+          - heading "Stay" [level=3] [ref=f23e50]
+          - list [ref=f23e51]:
+            - listitem [ref=f23e52]:
+              - link "All rooms" [ref=f23e53] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f23e54]:
+              - link "Room categories" [ref=f23e55] [cursor=pointer]:
+                - /url: /categories
+            - listitem [ref=f23e56]:
+              - link "Check availability" [ref=f23e57] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f23e58]:
+              - link "My bookings" [ref=f23e59] [cursor=pointer]:
+                - /url: /bookings
+        - navigation "Account" [ref=f23e60]:
+          - heading "Account" [level=3] [ref=f23e61]
+      - paragraph [aria-hidden]: Nightly
+      - generic [ref=f23e62]:
+        - paragraph [ref=f23e63]: © 2026 Nightly. Booked by the night.
+        - button "Back to top" [ref=f23e64] [cursor=pointer]:
+          - text: Back to top
+          - generic [aria-hidden] [ref=f23e65]: ↑

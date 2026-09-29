@@ -79,13 +79,11 @@ export function Footer() {
                   Check availability
                 </Link>
               </li>
-              {user ? (
-                <li>
-                  <Link to="/bookings" className={footLink}>
-                    My bookings
-                  </Link>
-                </li>
-              ) : null}
+              <li>
+                <Link to="/bookings" className={footLink}>
+                  My bookings
+                </Link>
+              </li>
             </ul>
           </nav>
 

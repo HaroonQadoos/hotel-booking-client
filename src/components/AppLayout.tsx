@@ -33,6 +33,7 @@ const menuActive = 'bg-cream/10 text-cream';
 export function AppLayout() {
   const { user, ready, signOut } = useAuth();
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
   // The menu remembers the page it was opened on, so following a link
   // closes it without an effect.
   const [menuOpenOn, setMenuOpenOn] = useState<string | null>(null);
@@ -50,10 +51,16 @@ export function AppLayout() {
 
   return (
     <div className="relative flex min-h-dvh flex-col">
-      {/* Top offset = the hero's inset plus a margin inside its rounded edge. */}
-      <header className="pointer-events-none fixed inset-x-0 top-3 z-20 flex justify-center px-6 pt-3 sm:top-6 sm:px-8 sm:pt-8">
+      {/* Top offset = the hero's inset plus a margin inside its rounded edge.
+          Only the home page has the tall hero; every other page sits the bar
+          closer to the top and trims it, so their content starts sooner. */}
+      <header
+        className={`pointer-events-none fixed inset-x-0 z-20 flex justify-center px-6 sm:px-8 ${
+          isHome ? 'top-3 pt-3 sm:top-6 sm:pt-8' : 'top-2 pt-2 sm:top-3 sm:pt-3'
+        }`}
+      >
         <div className="pointer-events-auto relative w-full max-w-[1280px]">
-          <div className="flex items-center gap-1 rounded-full border border-cream/10 bg-ink-deep/85 py-2 pr-2 pl-4 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-md sm:gap-2 sm:py-3 sm:pr-3 sm:pl-6">
+          <div className={`flex items-center gap-1 rounded-full border border-cream/10 bg-ink-deep/85 py-2 pr-2 pl-4 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-md sm:gap-2 sm:pr-3 sm:pl-6 ${isHome ? 'sm:py-3' : 'sm:py-2'}`}>
             <Link to="/" className={`mr-2 flex items-center gap-[8px] no-underline ${focusRing}`}>
               <span className="flex text-brass">
                 <KeyTag size={24} />
@@ -75,14 +82,12 @@ export function AppLayout() {
               >
                 Categories
               </NavLink>
-              {user ? (
-                <NavLink
-                  to="/bookings"
-                  className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
-                >
-                  My bookings
-                </NavLink>
-              ) : null}
+              <NavLink
+                to="/bookings"
+                className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
+              >
+                My bookings
+              </NavLink>
             </nav>
 
             {/* Nothing until the session is known — a "Sign in" that flips to a
@@ -154,14 +159,12 @@ export function AppLayout() {
               >
                 Categories
               </NavLink>
-              {user ? (
-                <NavLink
-                  to="/bookings"
-                  className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
-                >
-                  My bookings
-                </NavLink>
-              ) : null}
+              <NavLink
+                to="/bookings"
+                className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
+              >
+                My bookings
+              </NavLink>
             </nav>
 
             {ready ? (
