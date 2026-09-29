@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as api from '../api';
 import type { AvailableRoom, Room } from '../api';
 import { Container } from '../components/Container';
+import { Faqs } from '../components/Faqs';
 import { Hero } from '../components/Hero';
 import { Notice } from '../components/Notice';
 import { RoomCarousel } from '../components/RoomCarousel';
@@ -115,6 +116,8 @@ export function Home() {
             stay={stay}
           />
         )}
+
+        <Faqs />
       </Container>
     </>
   );

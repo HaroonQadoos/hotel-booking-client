@@ -1,0 +1,145 @@
+- generic [ref=f14e3]:
+  - banner:
+    - generic [ref=f14e5]:
+      - link "Nightly" [ref=f14e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f14e13]:
+        - link "Rooms" [ref=f14e14] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [active] [ref=f14e15] [cursor=pointer]:
+          - /url: /categories
+      - generic [ref=f14e112]:
+        - link "Sign in" [ref=f14e113] [cursor=pointer]:
+          - /url: /login
+        - link "Create account" [ref=f14e114] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=f14e16]:
+    - generic [ref=f14e119]:
+      - paragraph [ref=f14e120]: Room categories
+      - heading "Find the room that fits the stay." [level=1] [ref=f14e121]
+      - paragraph [ref=f14e122]: 3 kinds of room, 4 room types in all. Every one booked by the night.
+    - list [ref=f14e124]:
+      - listitem [ref=f14e125]:
+        - generic [ref=f14e126]:
+          - generic [ref=f14e128]: "01"
+          - generic [ref=f14e129]:
+            - paragraph [ref=f14e130]: Category
+            - heading "Single rooms" [level=2] [ref=f14e131]
+        - generic [ref=f14e132]:
+          - paragraph [ref=f14e133]: A quiet room of your own. Everything a solo traveller needs for a good night, and nothing to share.
+          - generic [ref=f14e134]:
+            - generic [ref=f14e135]:
+              - term [ref=f14e136]: Sleeps
+              - definition [ref=f14e137]: "1"
+            - generic [ref=f14e138]:
+              - term [ref=f14e139]: From
+              - definition [ref=f14e140]: $89
+            - generic [ref=f14e141]:
+              - term [ref=f14e142]: Rooms
+              - definition [ref=f14e143]: "1"
+          - list "Single rooms" [ref=f14e144]:
+            - listitem [ref=f14e145]:
+              - link "Classic Single Sleeps 1 · $89 / night" [ref=f14e146] [cursor=pointer]:
+                - /url: /rooms/6aac593f74a69f2acd63f9d5
+                - generic [ref=f14e147]:
+                  - generic [ref=f14e148]: Classic Single
+                  - generic [ref=f14e149]: Sleeps 1 · $89 / night
+      - listitem [ref=f14e153]:
+        - generic [ref=f14e154]:
+          - generic [ref=f14e156]: "02"
+          - generic [ref=f14e157]:
+            - paragraph [ref=f14e158]: Category
+            - heading "Double rooms" [level=2] [ref=f14e159]
+        - generic [ref=f14e160]:
+          - paragraph [ref=f14e161]: Room for two, or for a family. More floor space, a bigger bed and a view worth waking up to.
+          - generic [ref=f14e162]:
+            - generic [ref=f14e163]:
+              - term [ref=f14e164]: Sleeps
+              - definition [ref=f14e165]: 2–4
+            - generic [ref=f14e166]:
+              - term [ref=f14e167]: From
+              - definition [ref=f14e168]: $139
+            - generic [ref=f14e169]:
+              - term [ref=f14e170]: Rooms
+              - definition [ref=f14e171]: "2"
+          - list "Double rooms" [ref=f14e172]:
+            - listitem [ref=f14e173]:
+              - link "Deluxe Double Sleeps 2 · $139 / night" [ref=f14e174] [cursor=pointer]:
+                - /url: /rooms/6aac593f74a69f2acd63f9d6
+                - generic [ref=f14e175]:
+                  - generic [ref=f14e176]: Deluxe Double
+                  - generic [ref=f14e177]: Sleeps 2 · $139 / night
+            - listitem [ref=f14e181]:
+              - link "Family Double Sleeps 4 · $179 / night" [ref=f14e182] [cursor=pointer]:
+                - /url: /rooms/6aac594074a69f2acd63f9d7
+                - generic [ref=f14e183]:
+                  - generic [ref=f14e184]: Family Double
+                  - generic [ref=f14e185]: Sleeps 4 · $179 / night
+      - listitem [ref=f14e189]:
+        - generic [ref=f14e190]:
+          - generic [ref=f14e192]: "03"
+          - generic [ref=f14e193]:
+            - paragraph [ref=f14e194]: Category
+            - heading "Suite rooms" [level=2] [ref=f14e195]
+        - generic [ref=f14e196]:
+          - paragraph [ref=f14e197]: Our largest rooms, with a separate place to sit and the best of the hotel’s finishes.
+          - generic [ref=f14e198]:
+            - generic [ref=f14e199]:
+              - term [ref=f14e200]: Sleeps
+              - definition [ref=f14e201]: "3"
+            - generic [ref=f14e202]:
+              - term [ref=f14e203]: From
+              - definition [ref=f14e204]: $289
+            - generic [ref=f14e205]:
+              - term [ref=f14e206]: Rooms
+              - definition [ref=f14e207]: "1"
+          - list "Suite rooms" [ref=f14e208]:
+            - listitem [ref=f14e209]:
+              - link "Executive Suite Sleeps 3 · $289 / night" [ref=f14e210] [cursor=pointer]:
+                - /url: /rooms/6aac594074a69f2acd63f9d8
+                - generic [ref=f14e211]:
+                  - generic [ref=f14e212]: Executive Suite
+                  - generic [ref=f14e213]: Sleeps 3 · $289 / night
+  - contentinfo [ref=f14e76]:
+    - generic [ref=f14e77]:
+      - generic [ref=f14e79]:
+        - generic [ref=f14e80]:
+          - paragraph [ref=f14e81]: Your next night
+          - heading "A room on the water is waiting." [level=2] [ref=f14e82]
+        - link [ref=f14e83] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f14e87]:
+        - generic [ref=f14e88]:
+          - link "Nightly" [ref=f14e89] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f14e96]: Rooms by the night, on the water. Choose your dates, see exactly what is free, and book in a minute.
+        - navigation "Stay" [ref=f14e97]:
+          - heading "Stay" [level=3] [ref=f14e98]
+          - list [ref=f14e99]:
+            - listitem [ref=f14e100]:
+              - link "All rooms" [ref=f14e101] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f14e102]:
+              - link "Room categories" [ref=f14e103] [cursor=pointer]:
+                - /url: /categories
+            - listitem [ref=f14e104]:
+              - link "Check availability" [ref=f14e105] [cursor=pointer]:
+                - /url: /
+        - navigation "Account" [ref=f14e106]:
+          - heading "Account" [level=3] [ref=f14e107]
+          - list [ref=f14e217]:
+            - listitem [ref=f14e218]:
+              - link "Sign in" [ref=f14e219] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=f14e220]:
+              - link "Create account" [ref=f14e221] [cursor=pointer]:
+                - /url: /signup
+            - listitem [ref=f14e222]:
+              - link "Forgot password" [ref=f14e223] [cursor=pointer]:
+                - /url: /forgot-password
+      - paragraph [aria-hidden]: Nightly
+      - generic [ref=f14e108]:
+        - paragraph [ref=f14e109]: © 2026 Nightly. Booked by the night.
+        - button "Back to top" [ref=f14e110] [cursor=pointer]:
+          - text: Back to top
+          - generic [aria-hidden] [ref=f14e111]: ↑

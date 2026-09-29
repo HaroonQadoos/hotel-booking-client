@@ -16,6 +16,9 @@ export function parseStayParams(params: URLSearchParams): Stay | null {
   if (!DATE.test(checkIn) || !DATE.test(checkOut)) return null;
   if (!Number.isInteger(guests) || guests < 1) return null;
   if (nightsBetween(checkIn, checkOut) < 1) return null;
+  // An old link whose stay has already begun can no longer be searched or
+  // booked; the API would refuse it, so it counts as no dates at all.
+  if (checkIn < todayIso()) return null;
   return { checkIn, checkOut, guests };
 }
 

@@ -1,0 +1,74 @@
+- generic [ref=f14e3]:
+  - banner:
+    - generic [ref=f14e5]:
+      - link "Nightly" [ref=f14e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f14e13]:
+        - link "Rooms" [ref=f14e14] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f14e15] [cursor=pointer]:
+          - /url: /categories
+  - main [ref=f14e16]:
+    - generic [ref=f14e22]:
+      - paragraph [ref=f14e23]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=f14e24]
+      - paragraph [ref=f14e25]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - link "Scroll to search" [ref=f14e27] [cursor=pointer]:
+        - /url: "#search"
+        - generic [aria-hidden] [ref=f14e28]: ↓
+    - generic [ref=f14e29]:
+      - generic [ref=f14e32]:
+        - generic [ref=f14e33]:
+          - generic [ref=f14e38]:
+            - generic [ref=f14e39]: Check-in
+            - generic [ref=f14e40]: Add date
+          - button "Check-in" [ref=f14e43] [cursor=pointer]:
+            - generic [ref=f14e44]: No date chosen
+        - generic [ref=f14e46]:
+          - generic [ref=f14e51]:
+            - generic [ref=f14e52]: Check-out
+            - generic [ref=f14e53]: Add date
+          - button "Check-out" [ref=f14e56] [cursor=pointer]:
+            - generic [ref=f14e57]: No date chosen
+        - group "Guests" [ref=f14e59]:
+          - generic [ref=f14e65]:
+            - generic [ref=f14e66]: Guests
+            - status [ref=f14e67]: 1 guest
+          - generic [ref=f14e68]:
+            - button "Fewer guests" [disabled] [ref=f14e69]: −
+            - button "More guests" [ref=f14e70] [cursor=pointer]: +
+        - button "Search" [ref=f14e71] [cursor=pointer]
+      - paragraph [ref=f14e75]: Loading rooms…
+  - contentinfo [ref=f14e76]:
+    - generic [ref=f14e77]:
+      - generic [ref=f14e79]:
+        - generic [ref=f14e80]:
+          - paragraph [ref=f14e81]: Your next night
+          - heading "A room on the water is waiting." [level=2] [ref=f14e82]
+        - link [ref=f14e83] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f14e87]:
+        - generic [ref=f14e88]:
+          - link "Nightly" [ref=f14e89] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f14e96]: Rooms by the night, on the water. Choose your dates, see exactly what is free, and book in a minute.
+        - navigation "Stay" [ref=f14e97]:
+          - heading "Stay" [level=3] [ref=f14e98]
+          - list [ref=f14e99]:
+            - listitem [ref=f14e100]:
+              - link "All rooms" [ref=f14e101] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f14e102]:
+              - link "Room categories" [ref=f14e103] [cursor=pointer]:
+                - /url: /categories
+            - listitem [ref=f14e104]:
+              - link "Check availability" [ref=f14e105] [cursor=pointer]:
+                - /url: /
+        - navigation "Account" [ref=f14e106]:
+          - heading "Account" [level=3] [ref=f14e107]
+      - paragraph [aria-hidden]: Nightly
+      - generic [ref=f14e108]:
+        - paragraph [ref=f14e109]: © 2026 Nightly. Booked by the night.
+        - button "Back to top" [ref=f14e110] [cursor=pointer]:
+          - text: Back to top
+          - generic [aria-hidden] [ref=f14e111]: ↑

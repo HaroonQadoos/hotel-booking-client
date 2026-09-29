@@ -70,6 +70,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/categories" className={footLink}>
+                  Room categories
+                </Link>
+              </li>
+              <li>
                 <Link to="/" state={{ scrollTo: 'search' }} className={footLink}>
                   Check availability
                 </Link>

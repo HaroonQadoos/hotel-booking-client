@@ -4,6 +4,7 @@ import { useAuth } from './auth';
 import { BRAND } from './brand';
 import { AppLayout } from './components/AppLayout';
 import { KeyTag } from './components/KeyTag';
+import { Categories } from './pages/Categories';
 import { Home } from './pages/Home';
 import { MyBookings } from './pages/MyBookings';
 import { RoomDetail } from './pages/RoomDetail';
@@ -61,6 +62,7 @@ export function App() {
       {/* Public: guests browse rooms and availability before they sign up. */}
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/categories" element={<Categories />} />
         <Route path="/rooms/:id" element={<RoomDetail />} />
         <Route
           path="/bookings"

@@ -7,6 +7,11 @@ import type { StayErrors } from '../stay';
 import { Calendar } from './Calendar';
 import { Field } from './Field';
 
+function checkInOrToday(initial: Stay | null): string {
+  const today = todayIso();
+  return initial?.checkIn && initial.checkIn >= today ? initial.checkIn : today;
+}
+
 interface StayFormProps {
   initial: Stay | null;
   onSubmit: (stay: Stay) => void;
@@ -31,8 +36,12 @@ export function StayForm({
   disabled,
   layout = 'row',
 }: StayFormProps) {
-  const [checkIn, setCheckIn] = useState(initial?.checkIn ?? '');
-  const [checkOut, setCheckOut] = useState(initial?.checkOut ?? '');
+  // Check-in starts on today until the guest picks a day; a past date from an
+  // old link is moved up to today. Check-out stays empty until chosen.
+  const [checkIn, setCheckIn] = useState(() => checkInOrToday(initial));
+  const [checkOut, setCheckOut] = useState(() =>
+    initial?.checkOut && initial.checkOut > checkInOrToday(initial) ? initial.checkOut : '',
+  );
   const [guests, setGuests] = useState(String(initial?.guests ?? 1));
   const [errors, setErrors] = useState<StayErrors>({});
   // Pill layout only: which date's calendar is open.
@@ -71,7 +80,9 @@ export function StayForm({
 
   // Picking a check-in after the current check-out would only earn an error,
   // so the check-out is nudged to the next night instead.
-  function handleCheckIn(value: string) {
+  function handleCheckIn(input: string) {
+    // A past day typed into a plain date box is moved up to today.
+    const value = input && input < todayIso() ? todayIso() : input;
     setCheckIn(value);
     if (value && (!checkOut || checkOut <= value)) setCheckOut(addDays(value, 1));
   }

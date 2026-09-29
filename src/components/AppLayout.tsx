@@ -69,6 +69,12 @@ export function AppLayout() {
               >
                 Rooms
               </NavLink>
+              <NavLink
+                to="/categories"
+                className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
+              >
+                Categories
+              </NavLink>
               {user ? (
                 <NavLink
                   to="/bookings"
@@ -141,6 +147,12 @@ export function AppLayout() {
                 className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
               >
                 Rooms
+              </NavLink>
+              <NavLink
+                to="/categories"
+                className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
+              >
+                Categories
               </NavLink>
               {user ? (
                 <NavLink

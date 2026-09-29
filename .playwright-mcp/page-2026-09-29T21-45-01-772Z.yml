@@ -1,0 +1,215 @@
+- generic [ref=f15e3]:
+  - banner:
+    - generic [ref=f15e5]:
+      - link "Nightly" [ref=f15e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f15e13]:
+        - link "Rooms" [ref=f15e14] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f15e15] [cursor=pointer]:
+          - /url: /categories
+      - generic [ref=f15e195]:
+        - link "Sign in" [ref=f15e196] [cursor=pointer]:
+          - /url: /login
+        - link "Create account" [ref=f15e197] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=f15e16]:
+    - generic [ref=f15e22]:
+      - paragraph [ref=f15e23]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=f15e24]
+      - paragraph [ref=f15e25]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - generic [ref=f15e26]:
+        - link "Scroll to search" [ref=f15e27] [cursor=pointer]:
+          - /url: "#search"
+          - generic [aria-hidden] [ref=f15e28]: ↓
+        - paragraph [ref=f15e198]:
+          - generic [ref=f15e199]: From $89 a night
+          - text: 4 room types, booked by the night
+    - generic [ref=f15e29]:
+      - generic [ref=f15e32]:
+        - generic [ref=f15e33]:
+          - generic [ref=f15e38]:
+            - generic [ref=f15e39]: Check-in
+            - generic [ref=f15e40]: Add date
+          - button "Check-in" [ref=f15e43] [cursor=pointer]:
+            - generic [ref=f15e44]: No date chosen
+        - generic [ref=f15e46]:
+          - generic [ref=f15e51]:
+            - generic [ref=f15e52]: Check-out
+            - generic [ref=f15e53]: Add date
+          - button "Check-out" [ref=f15e56] [cursor=pointer]:
+            - generic [ref=f15e57]: No date chosen
+        - group "Guests" [ref=f15e59]:
+          - generic [ref=f15e65]:
+            - generic [ref=f15e66]: Guests
+            - status [ref=f15e67]: 1 guest
+          - generic [ref=f15e68]:
+            - button "Fewer guests" [disabled] [ref=f15e69]: −
+            - button "More guests" [ref=f15e70] [cursor=pointer]: +
+        - button "Search" [ref=f15e71] [cursor=pointer]
+      - region "Our rooms" [ref=f15e200]:
+        - generic [ref=f15e201]:
+          - generic [ref=f15e202]:
+            - heading "Our rooms" [level=2] [ref=f15e203]
+            - paragraph [ref=f15e204]: All room types
+          - generic [ref=f15e205]:
+            - button "Previous rooms" [disabled] [ref=f15e206]
+            - button "More rooms" [ref=f15e209] [cursor=pointer]
+        - list [ref=f15e212]:
+          - listitem [ref=f15e213]:
+            - link "Single Classic Single 1 person $89 / night" [ref=f15e214] [cursor=pointer]:
+              - /url: /rooms/6aac593f74a69f2acd63f9d5
+              - generic [ref=f15e216]:
+                - paragraph [ref=f15e217]: Single
+                - heading "Classic Single" [level=3] [ref=f15e218]
+                - paragraph [ref=f15e220]:
+                  - generic [ref=f15e221]: 1 person
+                  - generic [ref=f15e226]: $89 / night
+          - listitem [ref=f15e230]:
+            - link "Double Deluxe Double 2 persons $139 / night" [ref=f15e231] [cursor=pointer]:
+              - /url: /rooms/6aac593f74a69f2acd63f9d6
+              - generic [ref=f15e233]:
+                - paragraph [ref=f15e234]: Double
+                - heading "Deluxe Double" [level=3] [ref=f15e235]
+                - paragraph [ref=f15e237]:
+                  - generic [ref=f15e238]: 2 persons
+                  - generic [ref=f15e243]: $139 / night
+          - listitem [ref=f15e247]:
+            - link "Double Family Double 4 persons $179 / night" [ref=f15e248] [cursor=pointer]:
+              - /url: /rooms/6aac594074a69f2acd63f9d7
+              - generic [ref=f15e250]:
+                - paragraph [ref=f15e251]: Double
+                - heading "Family Double" [level=3] [ref=f15e252]
+                - paragraph [ref=f15e254]:
+                  - generic [ref=f15e255]: 4 persons
+                  - generic [ref=f15e260]: $179 / night
+          - listitem [ref=f15e264]:
+            - link "Suite Executive Suite 3 persons $289 / night" [ref=f15e265] [cursor=pointer]:
+              - /url: /rooms/6aac594074a69f2acd63f9d8
+              - generic [ref=f15e267]:
+                - paragraph [ref=f15e268]: Suite
+                - heading "Executive Suite" [level=3] [ref=f15e269]
+                - paragraph [ref=f15e271]:
+                  - generic [ref=f15e272]: 3 persons
+                  - generic [ref=f15e277]: $289 / night
+      - region [ref=f15e76]:
+        - generic [ref=f15e77]:
+          - paragraph [ref=f15e78]: FAQs
+          - heading "Questions, answered." [level=2] [ref=f15e79]
+          - paragraph [ref=f15e80]: The things guests most often ask before they book, from holding a room to cancelling one.
+        - list [ref=f15e81]:
+          - listitem [ref=f15e82]:
+            - heading [level=3] [ref=f15e83]:
+              - button "01 Do I need an account to see what is free?" [ref=f15e84] [cursor=pointer]:
+                - generic [ref=f15e85]: "01"
+                - generic [ref=f15e86]: Do I need an account to see what is free?
+            - region "01 Do I need an account to see what is free?":
+              - paragraph [ref=f15e91]:
+                - text: No. Pick your dates and number of guests and every room shows how many are left. You only need an account when you book, so the stay is kept under your name.
+                - link "Create one" [ref=f15e92] [cursor=pointer]:
+                  - /url: /signup
+                - text: in under a minute.
+          - listitem [ref=f15e93]:
+            - heading [level=3] [ref=f15e94]:
+              - button "02 My booking says “pending”. Is the room mine?" [ref=f15e95] [cursor=pointer]:
+                - generic [ref=f15e96]: "02"
+                - generic [ref=f15e97]: My booking says “pending”. Is the room mine?
+            - region "02 My booking says “pending”. Is the room mine?":
+              - paragraph [ref=f15e101]: Yes. A pending booking holds the room exactly as a confirmed one does, so nobody else can take it for those nights. Pending only means payment has not been taken yet.
+          - listitem [ref=f15e102]:
+            - heading [level=3] [ref=f15e103]:
+              - button "03 Can I cancel a booking?" [expanded] [active] [ref=f15e104] [cursor=pointer]:
+                - generic [ref=f15e105]: "03"
+                - generic [ref=f15e106]: Can I cancel a booking?
+            - region "03 Can I cancel a booking?" [ref=f15e282]:
+              - paragraph [ref=f15e110]:
+                - text: Yes, any time up to the day you check in. Open
+                - link "My bookings" [ref=f15e111] [cursor=pointer]:
+                  - /url: /bookings
+                - text: and choose Cancel; the room is released straight away. Once a stay has started it can no longer be cancelled online.
+          - listitem [ref=f15e112]:
+            - heading [level=3] [ref=f15e113]:
+              - button "04 How long can I stay?" [ref=f15e114] [cursor=pointer]:
+                - generic [ref=f15e115]: "04"
+                - generic [ref=f15e116]: How long can I stay?
+            - region "04 How long can I stay?":
+              - paragraph [ref=f15e120]: Anything from one night up to 30. For a longer stay, make a second booking that starts on the day the first one ends.
+          - listitem [ref=f15e121]:
+            - heading [level=3] [ref=f15e122]:
+              - button "05 How many guests can share a room?" [ref=f15e123] [cursor=pointer]:
+                - generic [ref=f15e124]: "05"
+                - generic [ref=f15e125]: How many guests can share a room?
+            - region "05 How many guests can share a room?":
+              - paragraph [ref=f15e129]:
+                - text: Every room shows how many it sleeps, and a search only shows rooms that fit your whole party.
+                - link "Compare the categories" [ref=f15e130] [cursor=pointer]:
+                  - /url: /categories
+                - text: to see them side by side.
+          - listitem [ref=f15e131]:
+            - heading [level=3] [ref=f15e132]:
+              - button "06 How is the price worked out?" [ref=f15e133] [cursor=pointer]:
+                - generic [ref=f15e134]: "06"
+                - generic [ref=f15e135]: How is the price worked out?
+            - region "06 How is the price worked out?":
+              - paragraph [ref=f15e139]: Rooms are priced per night in USD. The total is simply the nightly rate times the number of nights, and it is shown before you book.
+          - listitem [ref=f15e140]:
+            - heading [level=3] [ref=f15e141]:
+              - button "07 The room was free, then my booking failed. Why?" [ref=f15e142] [cursor=pointer]:
+                - generic [ref=f15e143]: "07"
+                - generic [ref=f15e144]: The room was free, then my booking failed. Why?
+            - region "07 The room was free, then my booking failed. Why?":
+              - paragraph [ref=f15e148]: Someone booked the last room for those nights a moment before you did. Nothing was reserved or charged; try different dates or another room.
+          - listitem [ref=f15e149]:
+            - heading [level=3] [ref=f15e150]:
+              - button "08 I forgot my password." [ref=f15e151] [cursor=pointer]:
+                - generic [ref=f15e152]: "08"
+                - generic [ref=f15e153]: I forgot my password.
+            - region "08 I forgot my password.":
+              - paragraph [ref=f15e157]:
+                - text: Use
+                - link "Forgot password" [ref=f15e158] [cursor=pointer]:
+                  - /url: /forgot-password
+                - text: and we will email you a link to set a new one.
+  - contentinfo [ref=f15e159]:
+    - generic [ref=f15e160]:
+      - generic [ref=f15e162]:
+        - generic [ref=f15e163]:
+          - paragraph [ref=f15e164]: Your next night
+          - heading "A room on the water is waiting." [level=2] [ref=f15e165]
+        - link [ref=f15e166] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f15e170]:
+        - generic [ref=f15e171]:
+          - link "Nightly" [ref=f15e172] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f15e179]: Rooms by the night, on the water. Choose your dates, see exactly what is free, and book in a minute.
+        - navigation "Stay" [ref=f15e180]:
+          - heading "Stay" [level=3] [ref=f15e181]
+          - list [ref=f15e182]:
+            - listitem [ref=f15e183]:
+              - link "All rooms" [ref=f15e184] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f15e185]:
+              - link "Room categories" [ref=f15e186] [cursor=pointer]:
+                - /url: /categories
+            - listitem [ref=f15e187]:
+              - link "Check availability" [ref=f15e188] [cursor=pointer]:
+                - /url: /
+        - navigation "Account" [ref=f15e189]:
+          - heading "Account" [level=3] [ref=f15e190]
+          - list [ref=f15e284]:
+            - listitem [ref=f15e285]:
+              - link "Sign in" [ref=f15e286] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=f15e287]:
+              - link "Create account" [ref=f15e288] [cursor=pointer]:
+                - /url: /signup
+            - listitem [ref=f15e289]:
+              - link "Forgot password" [ref=f15e290] [cursor=pointer]:
+                - /url: /forgot-password
+      - paragraph [aria-hidden]: Nightly
+      - generic [ref=f15e191]:
+        - paragraph [ref=f15e192]: © 2026 Nightly. Booked by the night.
+        - button "Back to top" [ref=f15e193] [cursor=pointer]:
+          - text: Back to top
+          - generic [aria-hidden] [ref=f15e194]: ↑
