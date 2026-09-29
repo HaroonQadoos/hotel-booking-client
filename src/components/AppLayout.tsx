@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { BRAND } from '../brand';
+import { Footer } from './Footer';
 import { KeyTag } from './KeyTag';
 
 const focusRing = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass';
@@ -192,6 +193,8 @@ export function AppLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
+
+      <Footer />
     </div>
   );
 }

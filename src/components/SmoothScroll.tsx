@@ -3,14 +3,35 @@ import 'lenis/dist/lenis.css';
 import { useEffect, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Lenis owns the scroll position, so a new page has to ask it to go back to
-// the top — the browser's own reset would be smoothed away.
-function ResetOnNavigate() {
-  const { pathname } = useLocation();
+// Where a navigation should land: the element a "#hash" or a
+// `{ scrollTo: 'id' }` state names, or the top of a new page. Links to a
+// section of another page use the state form — Lenis would otherwise catch a
+// "/#search" link and look for #search on the page being left. Lenis owns
+// the scroll position when it is on, so it is asked; otherwise the browser.
+function ScrollOnNavigate() {
+  const { pathname, hash: urlHash, state, key } = useLocation();
   const lenis = useLenis();
+  const scrollTo = (state as { scrollTo?: string } | null)?.scrollTo;
+  const hash = urlHash || (scrollTo ? `#${scrollTo}` : '');
+  // A section link re-scrolls on every click (each is a new `key`); anything
+  // else only on a new page, so a search that rewrites "?checkIn=…" stays put.
+  const trigger = hash ? key : pathname;
+
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true });
-  }, [pathname, lenis]);
+    if (hash) {
+      // Wait a frame so a page that just mounted has laid out its sections.
+      const frame = requestAnimationFrame(() => {
+        const target = document.querySelector<HTMLElement>(hash);
+        if (!target) return;
+        if (lenis) lenis.scrollTo(target);
+        else target.scrollIntoView();
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  }, [trigger, hash, lenis]);
+
   return null;
 }
 
@@ -21,11 +42,18 @@ const reducedMotion =
 // keep the browser's native scroll. `anchors` makes links like "#search"
 // glide instead of jump; touch scrolling stays native, which phones do best.
 export function SmoothScroll({ children }: { children: ReactNode }) {
-  if (reducedMotion) return <>{children}</>;
+  if (reducedMotion) {
+    return (
+      <>
+        <ScrollOnNavigate />
+        {children}
+      </>
+    );
+  }
 
   return (
     <ReactLenis root options={{ lerp: 0.1, anchors: true }}>
-      <ResetOnNavigate />
+      <ScrollOnNavigate />
       {children}
     </ReactLenis>
   );
