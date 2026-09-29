@@ -1,0 +1,60 @@
+- generic [ref=f8e3]:
+  - banner:
+    - generic [ref=f8e5]:
+      - link "Nightly" [ref=f8e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f8e13]:
+        - link "Rooms" [ref=f8e14] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f8e69]:
+        - link "Sign in" [ref=f8e70] [cursor=pointer]:
+          - /url: /login
+        - link "Create account" [ref=f8e71] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=f8e15]:
+    - generic [ref=f8e21]:
+      - paragraph [ref=f8e22]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=f8e23]
+      - paragraph [ref=f8e24]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - generic [ref=f8e25]:
+        - link "Scroll to search" [ref=f8e26] [cursor=pointer]:
+          - /url: "#search"
+          - generic [aria-hidden] [ref=f8e27]: ↓
+        - paragraph [ref=f8e72]:
+          - generic [ref=f8e73]: From $179 a night
+          - text: 1 room type, booked by the night
+    - generic [ref=f8e28]:
+      - generic [ref=f8e31]:
+        - generic [ref=f8e32]:
+          - generic [ref=f8e37]:
+            - generic [ref=f8e38]: Check-in
+            - generic [aria-hidden] [ref=f8e39]: Thu, Oct 1
+          - textbox "Check-in" [ref=f8e40] [cursor=pointer]: 2026-10-01
+        - generic [ref=f8e42]:
+          - generic [ref=f8e47]:
+            - generic [ref=f8e48]: Check-out
+            - generic [aria-hidden] [ref=f8e49]: Fri, Oct 2
+          - textbox "Check-out" [ref=f8e50] [cursor=pointer]: 2026-10-02
+        - group "Guests" [ref=f8e52]:
+          - generic [ref=f8e58]:
+            - generic [ref=f8e59]: Guests
+            - status [ref=f8e60]: 5 guests
+          - generic [ref=f8e61]:
+            - button "Fewer guests" [ref=f8e62] [cursor=pointer]: −
+            - button "More guests" [active] [ref=f8e63] [cursor=pointer]: +
+        - button "Search" [ref=f8e64] [cursor=pointer]
+      - region "Available for your stay" [ref=f8e74]:
+        - generic [ref=f8e76]:
+          - heading "Available for your stay" [level=2] [ref=f8e77]
+          - paragraph [ref=f8e78]: Thu, Oct 1 – Fri, Oct 2 · 4 guests
+        - list [ref=f8e79]:
+          - listitem [ref=f8e80]:
+            - link "6 rooms left Double Family Double 4 persons $179 / night" [ref=f8e81] [cursor=pointer]:
+              - /url: /rooms/6aac594074a69f2acd63f9d7?checkIn=2026-10-01&checkOut=2026-10-02&guests=4
+              - generic [ref=f8e83]: 6 rooms left
+              - generic [ref=f8e84]:
+                - paragraph [ref=f8e85]: Double
+                - heading "Family Double" [level=3] [ref=f8e86]
+                - paragraph [ref=f8e88]:
+                  - generic [ref=f8e89]: 4 persons
+                  - generic [ref=f8e94]: $179 / night

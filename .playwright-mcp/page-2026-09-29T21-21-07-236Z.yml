@@ -1,0 +1,37 @@
+- generic [ref=f8e3]:
+  - banner:
+    - generic [ref=f8e5]:
+      - link "Nightly" [ref=f8e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f8e13]:
+        - link "Rooms" [ref=f8e14] [cursor=pointer]:
+          - /url: /
+  - main [ref=f8e15]:
+    - generic [ref=f8e21]:
+      - paragraph [ref=f8e22]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=f8e23]
+      - paragraph [ref=f8e24]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - link "Scroll to search" [ref=f8e26] [cursor=pointer]:
+        - /url: "#search"
+        - generic [aria-hidden] [ref=f8e27]: ↓
+    - generic [ref=f8e28]:
+      - generic [ref=f8e31]:
+        - generic [ref=f8e32]:
+          - generic [ref=f8e37]:
+            - generic [ref=f8e38]: Check-in
+            - generic [aria-hidden] [ref=f8e39]: Thu, Oct 1
+          - textbox "Check-in" [ref=f8e40] [cursor=pointer]: 2026-10-01
+        - generic [ref=f8e42]:
+          - generic [ref=f8e47]:
+            - generic [ref=f8e48]: Check-out
+            - generic [aria-hidden] [ref=f8e49]: Fri, Oct 2
+          - textbox "Check-out" [ref=f8e50] [cursor=pointer]: 2026-10-02
+        - group "Guests" [ref=f8e52]:
+          - generic [ref=f8e58]:
+            - generic [ref=f8e59]: Guests
+            - status [ref=f8e60]: 4 guests
+          - generic [ref=f8e61]:
+            - button "Fewer guests" [ref=f8e62] [cursor=pointer]: −
+            - button "More guests" [ref=f8e63] [cursor=pointer]: +
+        - button "Search" [ref=f8e64] [cursor=pointer]
+      - paragraph [ref=f8e68]: Loading rooms…

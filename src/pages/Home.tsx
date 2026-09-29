@@ -4,7 +4,7 @@ import type { AvailableRoom, Room } from '../api';
 import { Container } from '../components/Container';
 import { Hero } from '../components/Hero';
 import { Notice } from '../components/Notice';
-import { RoomCard } from '../components/RoomCard';
+import { RoomCarousel } from '../components/RoomCarousel';
 import { StayForm } from '../components/StayForm';
 import { formatDay, formatPrice, plural } from '../format';
 import { useStay } from '../stay';
@@ -86,7 +86,7 @@ export function Home() {
         {/* Pulled up over the hero's fade so the two read as one composition. */}
         <section
           id="search"
-          className="relative -mt-10 mb-8 scroll-mt-4 rounded-card bg-paper px-6 pt-5 pb-1 text-ink shadow-card sm:mx-6 sm:-mt-12"
+          className="relative z-10 mx-auto -mt-12 mb-12 max-w-[1120px] scroll-mt-24 sm:-mt-14 sm:scroll-mt-36"
         >
           <StayForm
             // Remount when the URL changes so a back/forward navigation
@@ -95,15 +95,9 @@ export function Home() {
             initial={stay}
             onSubmit={setStay}
             submitLabel="Search"
+            layout="pill"
           />
         </section>
-
-        <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3">
-          <h2 className="font-serif text-[30px] leading-none text-cream">
-            {stay ? 'Available for your stay' : 'Our rooms'}
-          </h2>
-          {rooms ? <p className="text-[14px] text-mist">{summary}</p> : null}
-        </div>
 
         {error ? <Notice tone="error">{error}</Notice> : null}
 
@@ -114,11 +108,12 @@ export function Home() {
             No room type sleeps {stay ? plural(stay.guests, 'guest') : 'that many'}. Try a smaller party.
           </Notice>
         ) : (
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {rooms.map((room) => (
-              <RoomCard key={room.id} room={room} stay={stay} />
-            ))}
-          </div>
+          <RoomCarousel
+            title={stay ? 'Available for your stay' : 'Our rooms'}
+            aside={summary}
+            rooms={rooms}
+            stay={stay}
+          />
         )}
       </Container>
     </>

@@ -1,0 +1,10 @@
+- generic [ref=f3e3]:
+  - banner:
+    - generic [ref=f3e5]:
+      - link "Nightly" [ref=f3e6] [cursor=pointer]:
+        - /url: /
+      - navigation "Main" [ref=f3e13]:
+        - link "Rooms" [ref=f3e14] [cursor=pointer]:
+          - /url: /
+  - main [ref=f3e15]:
+    - paragraph [ref=f3e19]: Loading room…

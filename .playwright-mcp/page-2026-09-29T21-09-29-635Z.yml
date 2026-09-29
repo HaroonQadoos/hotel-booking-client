@@ -1,0 +1,36 @@
+- generic [ref=f1e3]:
+  - banner:
+    - generic [ref=f1e5]:
+      - link "Nightly" [ref=f1e6] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=f1e133] [cursor=pointer]
+  - main [ref=f1e18]:
+    - generic [ref=f1e138]:
+      - link "← All rooms" [ref=f1e139] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f1e140]:
+        - article [ref=f1e141]:
+          - paragraph [ref=f1e142]: Double · sleeps 4
+          - heading "Family Double" [level=1] [ref=f1e143]
+          - paragraph [ref=f1e144]: Two queen beds and extra floor space, with a sofa bed for a fourth guest. Sleeps up to four.
+          - heading "Amenities" [level=2] [ref=f1e145]
+          - list [ref=f1e146]:
+            - listitem [ref=f1e147]: •Wi-Fi
+            - listitem [ref=f1e148]: •Air conditioning
+            - listitem [ref=f1e149]: •Sofa bed
+            - listitem [ref=f1e150]: •Minibar
+            - listitem [ref=f1e151]: •Bathtub
+        - complementary [ref=f1e152]:
+          - paragraph [ref=f1e153]: $179/ night
+          - generic [ref=f1e154]:
+            - generic [ref=f1e155]:
+              - generic [ref=f1e156]: Check-in
+              - textbox "Check-in" [ref=f1e159]
+            - generic [ref=f1e160]:
+              - generic [ref=f1e161]: Check-out
+              - textbox "Check-out" [ref=f1e164]
+            - generic [ref=f1e165]:
+              - generic [ref=f1e166]: Guests
+              - spinbutton "Guests" [ref=f1e169]: "1"
+            - button "Sign in to book" [ref=f1e170] [cursor=pointer]
+          - paragraph [ref=f1e171]: Choose dates to see the total.

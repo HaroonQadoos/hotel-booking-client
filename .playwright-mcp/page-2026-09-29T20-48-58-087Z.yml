@@ -1,0 +1,28 @@
+- generic [ref=e3]:
+  - banner:
+    - generic [ref=e5]:
+      - link "Nightly" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=e13] [cursor=pointer]
+  - main [ref=e18]:
+    - generic [ref=e24]:
+      - paragraph [ref=e25]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=e26]
+      - paragraph [ref=e27]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - link "Scroll to search" [ref=e29] [cursor=pointer]:
+        - /url: "#search"
+        - generic [aria-hidden] [ref=e30]: ↓
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: Check-in
+          - textbox "Check-in" [ref=e38]
+        - generic [ref=e39]:
+          - generic [ref=e40]: Check-out
+          - textbox "Check-out" [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]: Guests
+          - spinbutton "Guests" [ref=e48]: "1"
+        - button "Search" [ref=e49] [cursor=pointer]
+      - heading "Our rooms" [level=2] [ref=e51]
+      - paragraph [ref=e52]: Loading rooms…

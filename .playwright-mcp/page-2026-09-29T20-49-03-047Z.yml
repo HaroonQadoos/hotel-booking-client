@@ -1,0 +1,108 @@
+- generic [ref=e3]:
+  - banner:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "Nightly" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - button "Close menu" [expanded] [active] [ref=e53] [cursor=pointer]
+      - generic [ref=e54]:
+        - navigation "Main" [ref=e55]:
+          - link "Rooms" [ref=e56] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e58]:
+          - link "Create account" [ref=e59] [cursor=pointer]:
+            - /url: /signup
+          - link "Sign in" [ref=e60] [cursor=pointer]:
+            - /url: /login
+  - main [ref=e18]:
+    - generic [ref=e24]:
+      - paragraph [ref=e25]: The hotel
+      - heading "Rooms by the night, on the water." [level=1] [ref=e26]
+      - paragraph [ref=e27]: Choose your dates and see exactly what is free. No account needed to look; one to book.
+      - generic [ref=e28]:
+        - link "Scroll to search" [ref=e29] [cursor=pointer]:
+          - /url: "#search"
+          - generic [aria-hidden] [ref=e30]: ↓
+        - paragraph [ref=e61]:
+          - generic [ref=e62]: From $89 a night
+          - text: 4 room types, booked by the night
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: Check-in
+          - textbox "Check-in" [ref=e38]
+        - generic [ref=e39]:
+          - generic [ref=e40]: Check-out
+          - textbox "Check-out" [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]: Guests
+          - spinbutton "Guests" [ref=e48]: "1"
+        - button "Search" [ref=e49] [cursor=pointer]
+      - generic [ref=e50]:
+        - heading "Our rooms" [level=2] [ref=e51]
+        - paragraph [ref=e63]: All room types
+      - generic [ref=e64]:
+        - article [ref=e65]:
+          - generic [ref=e66]:
+            - paragraph [ref=e67]: Single · sleeps 1
+            - heading "Classic Single" [level=2] [ref=e68]
+          - generic [ref=e69]:
+            - paragraph [ref=e70]: A quiet, compact room with a queen bed and a work desk. Ideal for solo travellers on business.
+            - list "Amenities" [ref=e71]:
+              - listitem [ref=e72]: Wi-Fi
+              - listitem [ref=e73]: Air conditioning
+              - listitem [ref=e74]: Work desk
+              - listitem [ref=e75]: Tea & coffee
+            - generic [ref=e76]:
+              - generic [ref=e77]: $89/ night
+              - link "View" [ref=e78] [cursor=pointer]:
+                - /url: /rooms/6aac593f74a69f2acd63f9d5
+        - article [ref=e79]:
+          - generic [ref=e80]:
+            - paragraph [ref=e81]: Double · sleeps 2
+            - heading "Deluxe Double" [level=2] [ref=e82]
+          - generic [ref=e83]:
+            - paragraph [ref=e84]: A bright double room with a king bed, city view, and a marble bathroom with a rain shower.
+            - list "Amenities" [ref=e85]:
+              - listitem [ref=e86]: Wi-Fi
+              - listitem [ref=e87]: Air conditioning
+              - listitem [ref=e88]: City view
+              - listitem [ref=e89]: Minibar
+              - listitem [ref=e90]: Rain shower
+            - generic [ref=e91]:
+              - generic [ref=e92]: $139/ night
+              - link "View" [ref=e93] [cursor=pointer]:
+                - /url: /rooms/6aac593f74a69f2acd63f9d6
+        - article [ref=e94]:
+          - generic [ref=e95]:
+            - paragraph [ref=e96]: Double · sleeps 4
+            - heading "Family Double" [level=2] [ref=e97]
+          - generic [ref=e98]:
+            - paragraph [ref=e99]: Two queen beds and extra floor space, with a sofa bed for a fourth guest. Sleeps up to four.
+            - list "Amenities" [ref=e100]:
+              - listitem [ref=e101]: Wi-Fi
+              - listitem [ref=e102]: Air conditioning
+              - listitem [ref=e103]: Sofa bed
+              - listitem [ref=e104]: Minibar
+              - listitem [ref=e105]: Bathtub
+            - generic [ref=e106]:
+              - generic [ref=e107]: $179/ night
+              - link "View" [ref=e108] [cursor=pointer]:
+                - /url: /rooms/6aac594074a69f2acd63f9d7
+        - article [ref=e109]:
+          - generic [ref=e110]:
+            - paragraph [ref=e111]: Suite · sleeps 3
+            - heading "Executive Suite" [level=2] [ref=e112]
+          - generic [ref=e113]:
+            - paragraph [ref=e114]: A separate living room, a king bed, and a private balcony. Includes lounge access and late checkout.
+            - list "Amenities" [ref=e115]:
+              - listitem [ref=e116]: Wi-Fi
+              - listitem [ref=e117]: Air conditioning
+              - listitem [ref=e118]: Balcony
+              - listitem [ref=e119]: Lounge access
+              - listitem [ref=e120]: Late checkout
+              - listitem [ref=e121]: +1 more
+            - generic [ref=e122]:
+              - generic [ref=e123]: $289/ night
+              - link "View" [ref=e124] [cursor=pointer]:
+                - /url: /rooms/6aac594074a69f2acd63f9d8

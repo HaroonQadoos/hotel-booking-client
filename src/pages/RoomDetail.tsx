@@ -5,8 +5,10 @@ import type { Room, Stay } from '../api';
 import { useAuth } from '../auth';
 import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
+import { RoomFeatures } from '../components/RoomFeatures';
 import { StayForm } from '../components/StayForm';
 import { ROOM_TYPE_LABEL, formatPrice, nightsBetween, plural } from '../format';
+import { roomPhoto } from '../roomPhoto';
 import { useStay } from '../stay';
 
 export function RoomDetail() {
@@ -85,9 +87,9 @@ export function RoomDetail() {
 
   if (loadError) {
     return (
-      <Container className="pt-24 pb-10 sm:pt-28">
+      <Container className="pt-28 pb-10 sm:pt-36">
         <Notice tone="error">{loadError}</Notice>
-        <Link to="/" className="text-brass-lit underline underline-offset-2 hover:text-cream">
+        <Link to="/" className="text-brass-ink underline underline-offset-2 hover:text-ink">
           Back to all rooms
         </Link>
       </Container>
@@ -95,52 +97,114 @@ export function RoomDetail() {
   }
   if (!room) {
     return (
-      <Container className="pt-24 pb-10 sm:pt-28">
-        <p className="text-mist">Loading room…</p>
-      </Container>
+      <>
+        {/* Same frame as the loaded banner, so the page does not jump. */}
+        <div className="px-3 pt-3 sm:px-8 sm:pt-8">
+          <div className="h-[62dvh] min-h-[420px] animate-pulse rounded-[28px] bg-ink-deep/90 sm:rounded-[36px]" />
+        </div>
+        <Container className="py-10">
+          <p className="text-graphite-soft">Loading room…</p>
+        </Container>
+      </>
     );
   }
 
   const nights = stay ? nightsBetween(stay.checkIn, stay.checkOut) : 0;
+  const backHref = stay
+    ? `/?${new URLSearchParams({ checkIn: stay.checkIn, checkOut: stay.checkOut, guests: String(stay.guests) })}`
+    : '/';
 
   return (
-    <Container className="pt-24 pb-10 sm:pt-28">
-      <Link
-        to={stay ? `/?${new URLSearchParams({ checkIn: stay.checkIn, checkOut: stay.checkOut, guests: String(stay.guests) })}` : '/'}
-        className="mb-5 inline-block text-[14px] text-mist no-underline hover:text-cream"
-      >
-        ← All rooms
-      </Link>
+    <>
+      {/* The banner: the room's photo in the same inset, rounded frame as the
+          home page hero, with the floating nav bar over its top edge. */}
+      <div className="px-3 pt-3 sm:px-8 sm:pt-8">
+        <section className="relative isolate flex h-[62dvh] min-h-[420px] flex-col overflow-hidden rounded-[28px] bg-ink-deep sm:min-h-[480px] sm:rounded-[36px]">
+          <img
+            src={roomPhoto(room)}
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+            className="absolute inset-0 -z-10 h-full w-full object-cover"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-linear-to-t from-ink-deep/90 via-ink-deep/30 via-55% to-ink-deep/40"
+          />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px] lg:items-start">
-        <article className="rounded-card bg-paper px-7 pt-7 pb-7 text-ink shadow-card">
-          <p className="mb-1 text-[12px] font-medium tracking-[0.08em] text-graphite-soft uppercase">
-            {ROOM_TYPE_LABEL[room.type]} · sleeps {room.capacity}
-          </p>
-          <h1 className="mb-4 font-serif text-[36px] leading-[1.1]">{room.name}</h1>
-          <p className="mb-6 text-[15px] leading-relaxed text-graphite">{room.description}</p>
+          <div className="flex flex-1 flex-col justify-end px-6 pt-28 pb-8 sm:px-12 sm:pb-12 lg:px-16 lg:pb-14">
+            <Link
+              to={backHref}
+              className="mb-auto inline-flex w-fit items-center gap-2 rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-2 text-[14px] text-cream no-underline backdrop-blur-sm transition-colors duration-[120ms] hover:bg-ink-deep/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass sm:mt-4"
+            >
+              <span aria-hidden="true">←</span> All rooms
+            </Link>
 
-          {room.amenities.length > 0 ? (
-            <>
-              <h2 className="mb-2 text-[12px] font-medium tracking-[0.08em] text-graphite-soft uppercase">
-                Amenities
-              </h2>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-[6px] text-[14px] text-graphite">
-                {room.amenities.map((amenity) => (
-                  <li key={amenity} className="before:mr-2 before:text-brass before:content-['•']">
-                    {amenity}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-        </article>
+            <p className="mb-3 text-[12px] font-medium tracking-[0.14em] text-brass-lit uppercase">
+              {ROOM_TYPE_LABEL[room.type]} room
+            </p>
+            <h1 className="mb-5 max-w-[16ch] font-serif text-[44px] leading-[1.02] font-normal text-cream sm:text-[68px]">
+              {room.name}
+            </h1>
+            <ul className="flex flex-wrap gap-2 text-[14px] text-cream">
+              <li className="rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm">
+                Sleeps {room.capacity}
+              </li>
+              <li className="rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm">
+                From {formatPrice(room.pricePerNight)} a night
+              </li>
+              {room.amenities.length > 0 ? (
+                <li className="hidden rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm sm:block">
+                  {room.amenities.length === 1 ? '1 amenity' : `${room.amenities.length} amenities`}
+                </li>
+              ) : null}
+            </ul>
+          </div>
+        </section>
+      </div>
 
-        <aside className="rounded-card bg-paper px-6 pt-5 pb-3 text-ink shadow-card">
-          <p className="mb-4">
-            <span className="font-serif text-[30px] leading-none">{formatPrice(room.pricePerNight)}</span>
-            <span className="ml-1 text-[13px] text-graphite-soft">/ night</span>
-          </p>
+      <Container className="pt-10 pb-16 sm:pt-12 lg:pb-24">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px] lg:items-start lg:gap-12">
+          <article className="text-ink">
+            <h2 className="mb-3 text-[12px] font-medium tracking-[0.14em] text-brass-ink uppercase">
+              About the room
+            </h2>
+            <p className="mb-10 max-w-[62ch] font-serif text-[24px] leading-[1.35] text-ink sm:text-[28px]">
+              {room.description}
+            </p>
+
+            {room.amenities.length > 0 ? (
+              <>
+                <h2 className="mb-4 text-[12px] font-medium tracking-[0.14em] text-brass-ink uppercase">
+                  Amenities
+                </h2>
+                <ul className="grid grid-cols-1 gap-x-6 border-t border-paper-edge sm:grid-cols-2">
+                  {room.amenities.map((amenity) => (
+                    <li
+                      key={amenity}
+                      className="flex items-center gap-3 border-b border-paper-edge py-3 text-[15px] text-graphite"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-brass">
+                        <path d="M3 8.5l3 3 7-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {amenity}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </article>
+
+          {/* Pulled up over the banner on wide screens, like the home
+              page's search card, and pinned while the details scroll. */}
+          <aside className="rounded-[22px] border border-paper-edge bg-paper px-6 pt-6 pb-3 text-ink shadow-card lg:sticky lg:top-28 lg:-mt-40">
+            <p className="mb-5 flex items-baseline justify-between gap-3">
+              <span>
+                <span className="font-serif text-[34px] leading-none">{formatPrice(room.pricePerNight)}</span>
+                <span className="ml-1 text-[13px] text-graphite-soft">/ night</span>
+              </span>
+              <span className="text-[13px] text-graphite-soft">Sleeps {room.capacity}</span>
+            </p>
 
           {bookError ? (
             <p
@@ -180,7 +244,10 @@ export function RoomDetail() {
             </p>
           )}
         </aside>
-      </div>
-    </Container>
+        </div>
+
+        <RoomFeatures />
+      </Container>
+    </>
   );
 }
