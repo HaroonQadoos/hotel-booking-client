@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import type { AvailableRoom, Room, Stay } from '../api';
 import { ROOM_TYPE_LABEL, formatPrice, plural } from '../format';
 import { stayToParams } from '../stay';
+import { SaleBadge, WasPrice } from './Sale';
+import { plainText } from '../richText';
 
 interface RoomCardProps {
   room: Room | AvailableRoom;
@@ -28,7 +30,7 @@ export function RoomCard({ room, stay }: RoomCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col px-6 pt-4 pb-5">
-        <p className="mb-4 line-clamp-3 text-[14px] text-graphite">{room.description}</p>
+        <p className="mb-4 line-clamp-3 text-[14px] text-graphite">{plainText(room.description)}</p>
 
         {room.amenities.length > 0 ? (
           <ul className="mb-5 flex flex-wrap gap-[6px]" aria-label="Amenities">
@@ -50,7 +52,13 @@ export function RoomCard({ room, stay }: RoomCardProps) {
 
         <div className="mt-auto flex items-end justify-between gap-3">
           <div>
-            <span className="font-serif text-[28px] leading-none">{formatPrice(room.pricePerNight)}</span>
+            {room.discountActive ? (
+              <p className="mb-1 flex items-center gap-2 text-[13px] text-graphite-soft">
+                <WasPrice amount={room.pricePerNight} />
+                <SaleBadge percent={room.discountPercent} />
+              </p>
+            ) : null}
+            <span className="font-serif text-[28px] leading-none">{formatPrice(room.effectivePricePerNight)}</span>
             <span className="ml-1 text-[13px] text-graphite-soft">/ night</span>
             {available !== null ? (
               <p className={`mt-1 text-[13px] ${soldOut ? 'text-rust-ink' : 'text-graphite-soft'}`}>

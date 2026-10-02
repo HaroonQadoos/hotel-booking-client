@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { AvailableRoom, Room, Stay } from '../api';
-import { ROOM_TYPE_LABEL, formatPrice, plural } from '../format';
+import { ROOM_TYPE_LABEL, formatPrice, nightsBetween, plural } from '../format';
 import { roomPhoto } from '../roomPhoto';
+import { quoteStay } from '../sale';
 import { stayToParams } from '../stay';
+import { SaleBadge, WasPrice } from './Sale';
 
 type AnyRoom = Room | AvailableRoom;
 
@@ -42,6 +44,8 @@ function RoomSlide({ room, stay }: { room: AnyRoom; stay: Stay | null }) {
   const available = 'availableUnits' in room ? room.availableUnits : null;
   const soldOut = available === 0;
   const href = `/rooms/${room.id}${stay ? `?${stayToParams(stay)}` : ''}`;
+  const quote = stay ? quoteStay(room, stay, 'totalPrice' in room ? room.totalPrice : undefined) : null;
+  const nights = stay ? nightsBetween(stay.checkIn, stay.checkOut) : 0;
 
   return (
     <li className="w-[82%] shrink-0 snap-start sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)]">
@@ -68,6 +72,10 @@ function RoomSlide({ room, stay }: { room: AnyRoom; stay: Stay | null }) {
           </span>
         ) : null}
 
+        {room.discountActive ? (
+          <SaleBadge percent={room.discountPercent} className="absolute top-4 right-4" />
+        ) : null}
+
         <div className="p-5 sm:p-6">
           <p className="mb-1 text-[12px] font-medium tracking-[0.14em] text-brass-lit uppercase">
             {ROOM_TYPE_LABEL[room.type]}
@@ -81,7 +89,25 @@ function RoomSlide({ room, stay }: { room: AnyRoom; stay: Stay | null }) {
                 {plural(room.capacity, 'person')}
               </span>
               <span aria-hidden="true" className="h-3 w-px bg-cream/25" />
-              <span>{formatPrice(room.pricePerNight)} / night</span>
+              <span>
+                {room.discountActive ? (
+                  <>
+                    <WasPrice amount={room.pricePerNight} className="mr-[6px] text-mist/70" />
+                    <span className="text-cream">{formatPrice(room.effectivePricePerNight)}</span>
+                  </>
+                ) : (
+                  formatPrice(room.pricePerNight)
+                )}{' '}
+                / night
+              </span>
+              {/* Worked out here when the API has not priced the stay, and
+                  worded as an estimate so it promises nothing. */}
+              {quote && nights > 0 ? (
+                <span className="basis-full text-[13px]">
+                  {quote.exact ? '' : 'About '}
+                  {formatPrice(quote.total)} for {plural(nights, 'night')}
+                </span>
+              ) : null}
             </p>
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-cream/30 bg-ink-deep/30 backdrop-blur-sm transition-colors duration-200 group-hover:border-brass group-hover:bg-brass group-hover:text-ink-deep">
               <Arrow />

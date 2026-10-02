@@ -53,3 +53,21 @@ export function plural(count: number, noun: string): string {
 }
 
 export const ROOM_TYPE_LABEL = { single: 'Single', double: 'Double', suite: 'Suite' } as const;
+
+export const VENUE_TYPE_LABEL = {
+  conference: 'Conference room',
+  pool: 'Swimming pool',
+  hall: 'Party hall',
+} as const;
+
+// Venue hours are bare integers in hotel time, shown on a 12-hour clock
+// whatever the browser's locale: 9 → "9:00 AM", 13 → "1:00 PM". 24 is the
+// midnight that closes the day, so it reads "12:00 AM" like 0 does.
+export function formatHour(hour: number): string {
+  const h = hour % 24;
+  return `${h % 12 || 12}:00 ${h < 12 ? 'AM' : 'PM'}`;
+}
+
+export function formatSlot(startHour: number, endHour: number): string {
+  return `${formatHour(startHour)} – ${formatHour(endHour)}`;
+}

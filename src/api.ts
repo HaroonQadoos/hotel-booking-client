@@ -35,6 +35,11 @@ const SERVER_FIELDS = [
   'checkIn',
   'checkOut',
   'guests',
+  'venue',
+  'date',
+  'startHour',
+  'endHour',
+  'notes',
 ] as const;
 export type ServerField = (typeof SERVER_FIELDS)[number];
 export type FieldErrors = Partial<Record<ServerField, string>>;
@@ -194,12 +199,22 @@ export interface Room {
   amenities: string[];
   images: string[];
   isActive: boolean;
+  /** 0–90; 0 means no sale. The window bounds are inclusive, null = open. */
+  discountPercent: number;
+  discountStartsAt: string | null;
+  discountEndsAt: string | null;
+  /** Worked out by the API against today, so the client never guesses. */
+  discountActive: boolean;
+  effectivePricePerNight: number;
 }
 
 // A room plus how many units are free for a specific stay. 0 is "sold out",
-// and the API includes those on purpose so the page can say so.
+// and the API includes those on purpose so the page can say so. `totalPrice`
+// is the API's price for the whole stay, sale nights included — optional
+// because an older server does not send it.
 export interface AvailableRoom extends Room {
   availableUnits: number;
+  totalPrice?: number;
 }
 
 export type BookingStatus = 'pending' | 'confirmed' | 'cancelled';
@@ -262,6 +277,100 @@ export function getMyBookings(): Promise<Booking[]> {
 
 export function cancelBooking(id: string): Promise<Booking> {
   return request<Booking>(`/bookings/${encodeURIComponent(id)}/cancel`, {
+    method: 'PATCH',
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Venues and venue bookings: spaces booked by the hour rather than the night.
+
+export type VenueType = 'conference' | 'pool' | 'hall';
+
+export interface Venue {
+  id: string;
+  name: string;
+  description: string;
+  type: VenueType;
+  pricePerHour: number;
+  capacity: number;
+  /** Whole hours, hotel time. A slot is [startHour, endHour). */
+  openingHour: number;
+  closingHour: number;
+  minHours: number;
+  maxHours: number;
+  amenities: string[];
+  images: string[];
+  isActive: boolean;
+  discountPercent: number;
+  discountStartsAt: string | null;
+  discountEndsAt: string | null;
+  discountActive: boolean;
+  effectivePricePerHour: number;
+}
+
+// Which hours of one day are already held. No guest details: the slots are
+// all a stranger needs to see.
+export interface VenueAvailability {
+  date: string;
+  openingHour: number;
+  closingHour: number;
+  booked: { startHour: number; endHour: number }[];
+}
+
+export interface VenueBooking {
+  id: string;
+  user: string;
+  venue: { id: string; name?: string; type?: VenueType };
+  /** "YYYY-MM-DD", like a room's check-in. */
+  date: string;
+  startHour: number;
+  endHour: number;
+  hours: number;
+  guests: number;
+  notes?: string;
+  totalPrice: number;
+  status: BookingStatus;
+  createdAt: string;
+}
+
+export interface VenueBookingInput {
+  date: string;
+  startHour: number;
+  endHour: number;
+  guests: number;
+  notes?: string;
+}
+
+export function getVenues(type?: VenueType): Promise<Venue[]> {
+  const query = type ? `?type=${type}` : '';
+  return request<Venue[]>(`/venues${query}`);
+}
+
+export function getVenue(id: string): Promise<Venue> {
+  return request<Venue>(`/venues/${encodeURIComponent(id)}`);
+}
+
+export function getVenueAvailability(id: string, date: string): Promise<VenueAvailability> {
+  return request<VenueAvailability>(
+    `/venues/${encodeURIComponent(id)}/availability?${new URLSearchParams({ date })}`,
+  );
+}
+
+// Notes are left off entirely when blank rather than sent as "".
+export function createVenueBooking(venueId: string, input: VenueBookingInput): Promise<VenueBooking> {
+  const { notes, ...rest } = input;
+  return request<VenueBooking>('/venue-bookings', {
+    method: 'POST',
+    body: { venue: venueId, ...rest, ...(notes ? { notes } : {}) },
+  });
+}
+
+export function getMyVenueBookings(): Promise<VenueBooking[]> {
+  return request<VenueBooking[]>('/venue-bookings/me');
+}
+
+export function cancelVenueBooking(id: string): Promise<VenueBooking> {
+  return request<VenueBooking>(`/venue-bookings/${encodeURIComponent(id)}/cancel`, {
     method: 'PATCH',
   });
 }

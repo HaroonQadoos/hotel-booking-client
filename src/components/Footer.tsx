@@ -75,6 +75,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/venues" className={footLink}>
+                  Venues & events
+                </Link>
+              </li>
+              <li>
                 <Link to="/" state={{ scrollTo: 'search' }} className={footLink}>
                   Check availability
                 </Link>

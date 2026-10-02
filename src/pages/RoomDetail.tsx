@@ -6,9 +6,12 @@ import { useAuth } from '../auth';
 import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
 import { RoomFeatures } from '../components/RoomFeatures';
+import { SaleBadge, WasPrice } from '../components/Sale';
 import { StayForm } from '../components/StayForm';
+import { RichText } from '../components/RichText';
 import { ROOM_TYPE_LABEL, formatPrice, nightsBetween, plural } from '../format';
 import { roomPhoto } from '../roomPhoto';
+import { quoteStay } from '../sale';
 import { useStay } from '../stay';
 
 export function RoomDetail() {
@@ -22,6 +25,11 @@ export function RoomDetail() {
   const [loadError, setLoadError] = useState('');
   const [bookError, setBookError] = useState('');
   const [booking, setBooking] = useState(false);
+  // The availability search prices a stay exactly, sale nights included.
+  // Remembered against the stay it was asked for, so a change of dates
+  // falls back to the estimate until the new answer lands.
+  const [priced, setPriced] = useState<{ stay: string; total: number } | null>(null);
+  const stayKey = stay ? `${stay.checkIn}/${stay.checkOut}/${stay.guests}` : '';
 
   useEffect(() => {
     let cancelled = false;
@@ -42,6 +50,23 @@ export function RoomDetail() {
       cancelled = true;
     };
   }, [id]);
+
+  useEffect(() => {
+    if (!stay) return;
+    let cancelled = false;
+    api
+      .searchAvailability(stay)
+      .then((results) => {
+        const match = results.find((result) => result.id === id);
+        if (!cancelled && match?.totalPrice !== undefined) setPriced({ stay: stayKey, total: match.totalPrice });
+      })
+      // Only a nicety: without it the page shows its own estimate.
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+    // `stay` is rebuilt from the URL on every render; `stayKey` is its value.
+  }, [id, stayKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function book(next: Stay) {
     setStay(next);
@@ -110,6 +135,7 @@ export function RoomDetail() {
   }
 
   const nights = stay ? nightsBetween(stay.checkIn, stay.checkOut) : 0;
+  const quote = stay ? quoteStay(room, stay, priced?.stay === stayKey ? priced.total : undefined) : null;
   const backHref = stay
     ? `/?${new URLSearchParams({ checkIn: stay.checkIn, checkOut: stay.checkOut, guests: String(stay.guests) })}`
     : '/';
@@ -150,8 +176,16 @@ export function RoomDetail() {
               <li className="rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm">
                 Sleeps {room.capacity}
               </li>
-              <li className="rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm">
-                From {formatPrice(room.pricePerNight)} a night
+              <li className="flex items-center gap-2 rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm">
+                {room.discountActive ? (
+                  <>
+                    <WasPrice amount={room.pricePerNight} className="text-mist" />
+                    {formatPrice(room.effectivePricePerNight)} a night
+                    <SaleBadge percent={room.discountPercent} className="-mr-2" />
+                  </>
+                ) : (
+                  <>From {formatPrice(room.pricePerNight)} a night</>
+                )}
               </li>
               {room.amenities.length > 0 ? (
                 <li className="hidden rounded-full border border-cream/25 bg-ink-deep/40 px-4 py-[7px] backdrop-blur-sm sm:block">
@@ -169,9 +203,10 @@ export function RoomDetail() {
             <h2 className="mb-3 text-[12px] font-medium tracking-[0.14em] text-brass-ink uppercase">
               About the room
             </h2>
-            <p className="mb-10 max-w-[62ch] font-serif text-[24px] leading-[1.35] text-ink sm:text-[28px]">
-              {room.description}
-            </p>
+            <RichText
+              value={room.description}
+              className="mb-10 max-w-[62ch] font-serif text-[24px] leading-[1.35] text-ink sm:text-[28px]"
+            />
 
             {room.amenities.length > 0 ? (
               <>
@@ -198,9 +233,16 @@ export function RoomDetail() {
           {/* Pulled up over the banner on wide screens, like the home
               page's search card, and pinned while the details scroll. */}
           <aside className="rounded-[22px] border border-paper-edge bg-paper px-6 pt-6 pb-3 text-ink shadow-card lg:sticky lg:top-28 lg:-mt-40">
+            {room.discountActive ? (
+              <p className="mb-2 flex items-center gap-2 text-[14px] text-graphite-soft">
+                <WasPrice amount={room.pricePerNight} />
+                <SaleBadge percent={room.discountPercent} />
+                <span className="text-[13px]">today</span>
+              </p>
+            ) : null}
             <p className="mb-5 flex items-baseline justify-between gap-3">
               <span>
-                <span className="font-serif text-[34px] leading-none">{formatPrice(room.pricePerNight)}</span>
+                <span className="font-serif text-[34px] leading-none">{formatPrice(room.effectivePricePerNight)}</span>
                 <span className="ml-1 text-[13px] text-graphite-soft">/ night</span>
               </span>
               <span className="text-[13px] text-graphite-soft">Sleeps {room.capacity}</span>
@@ -229,14 +271,26 @@ export function RoomDetail() {
             />
           )}
 
-          {stay && nights > 0 ? (
+          {quote && nights > 0 ? (
+            // One line per run of nights at the same rate, so a stay that
+            // runs into or out of a sale shows exactly which nights are cut.
             <dl className="mb-3 grid grid-cols-[1fr_auto] gap-y-1 border-t border-paper-edge pt-3 text-[14px]">
-              <dt className="text-graphite-soft">
-                {formatPrice(room.pricePerNight)} × {plural(nights, 'night')}
-              </dt>
-              <dd className="text-right">{formatPrice(room.pricePerNight * nights)}</dd>
-              <dt className="font-medium">Total</dt>
-              <dd className="text-right font-serif text-[20px]">{formatPrice(room.pricePerNight * nights)}</dd>
+              {quote.lines.map((line, i) => (
+                <div key={i} className="contents">
+                  <dt className="text-graphite-soft">
+                    {formatPrice(line.rate)} × {plural(line.nights, 'night')}
+                    {line.onSale ? <span className="ml-2 text-[12px] text-brass-ink">sale</span> : null}
+                  </dt>
+                  <dd className="text-right">{formatPrice(line.rate * line.nights)}</dd>
+                </div>
+              ))}
+              <dt className="font-medium">{quote.exact ? 'Total' : 'Estimated total'}</dt>
+              <dd className="text-right font-serif text-[20px]">{formatPrice(quote.total)}</dd>
+              {quote.exact ? null : (
+                <dd className="col-span-2 text-[12.5px] text-graphite-soft">
+                  The hotel confirms the final price when you book.
+                </dd>
+              )}
             </dl>
           ) : (
             <p className="mb-3 border-t border-paper-edge pt-3 text-[13px] text-graphite-soft">

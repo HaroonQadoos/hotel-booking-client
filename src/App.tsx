@@ -8,6 +8,8 @@ import { Categories } from './pages/Categories';
 import { Home } from './pages/Home';
 import { MyBookings } from './pages/MyBookings';
 import { RoomDetail } from './pages/RoomDetail';
+import { VenueDetail } from './pages/VenueDetail';
+import { Venues } from './pages/Venues';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Login } from './pages/Login';
 import { ResetPassword } from './pages/ResetPassword';
@@ -59,11 +61,13 @@ function CardLayout({ children }: { children?: ReactElement }) {
 export function App() {
   return (
     <Routes>
-      {/* Public: guests browse rooms and availability before they sign up. */}
+      {/* Public: guests browse rooms, venues and availability before they sign up. */}
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/rooms/:id" element={<RoomDetail />} />
+        <Route path="/venues" element={<Venues />} />
+        <Route path="/venues/:id" element={<VenueDetail />} />
         <Route
           path="/bookings"
           element={

@@ -4,6 +4,7 @@ import * as api from '../api';
 import type { Room, RoomType } from '../api';
 import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
+import { SaleBadge, WasPrice } from '../components/Sale';
 import { ROOM_TYPE_LABEL, formatPrice, plural } from '../format';
 
 // How each kind of room is introduced. The rooms themselves — names, prices,
@@ -30,6 +31,8 @@ interface Category {
   type: RoomType;
   rooms: Room[];
   fromPrice: number;
+  /** The deepest sale running in the category today, 0 for none. */
+  bestDiscount: number;
   minGuests: number;
   maxGuests: number;
 }
@@ -44,7 +47,9 @@ function groupRooms(rooms: Room[]): Category[] {
       {
         type,
         rooms: inType,
-        fromPrice: Math.min(...inType.map((room) => room.pricePerNight)),
+        // What a guest would actually pay today, sale included.
+        fromPrice: Math.min(...inType.map((room) => room.effectivePricePerNight)),
+        bestDiscount: Math.max(0, ...inType.map((room) => (room.discountActive ? room.discountPercent : 0))),
         minGuests: Math.min(...capacities),
         maxGuests: Math.max(...capacities),
       },
@@ -124,7 +129,7 @@ export function Categories() {
 }
 
 function CategoryCard({ category, index }: { category: Category; index: number }) {
-  const { type, rooms, fromPrice, minGuests, maxGuests } = category;
+  const { type, rooms, fromPrice, bestDiscount, minGuests, maxGuests } = category;
   const label = ROOM_TYPE_LABEL[type];
   const sleeps = minGuests === maxGuests ? `${minGuests}` : `${minGuests}–${maxGuests}`;
   // A room's own photo wins over the stock one, as on the room page.
@@ -143,6 +148,13 @@ function CategoryCard({ category, index }: { category: Category; index: number }
         <span className="absolute top-4 left-4 rounded-full bg-ink-deep/60 px-3 py-1 font-serif text-[15px] text-cream backdrop-blur-md">
           {String(index + 1).padStart(2, '0')}
         </span>
+        {bestDiscount > 0 ? (
+          <span className="absolute top-4 right-4 flex items-center gap-2 rounded-full bg-ink-deep/60 py-1 pr-1 pl-3 text-[13px] text-cream backdrop-blur-md">
+            {/* "Up to" only when the rooms on sale are not all cut alike. */}
+            {rooms.every((room) => !room.discountActive || room.discountPercent === bestDiscount) ? 'On sale' : 'Up to'}
+            <SaleBadge percent={bestDiscount} />
+          </span>
+        ) : null}
         <div className="absolute inset-x-0 bottom-0 p-6">
           <p className="mb-1 text-[12px] font-medium tracking-[0.14em] text-brass-lit uppercase">Category</p>
           <h2 className="font-serif text-[40px] leading-none font-normal text-cream">{label} rooms</h2>
@@ -177,8 +189,17 @@ function CategoryCard({ category, index }: { category: Category; index: number }
               >
                 <span className="min-w-0">
                   <span className="block truncate text-[16px] font-medium">{room.name}</span>
-                  <span className="text-[13px] text-graphite-soft">
-                    Sleeps {room.capacity} · {formatPrice(room.pricePerNight)} / night
+                  <span className="flex flex-wrap items-center gap-x-[6px] text-[13px] text-graphite-soft">
+                    Sleeps {room.capacity} ·
+                    {room.discountActive ? (
+                      <>
+                        <WasPrice amount={room.pricePerNight} />
+                        <span className="font-medium text-ink">{formatPrice(room.effectivePricePerNight)}</span> / night
+                        <SaleBadge percent={room.discountPercent} />
+                      </>
+                    ) : (
+                      <span>{formatPrice(room.pricePerNight)} / night</span>
+                    )}
                   </span>
                 </span>
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-paper-edge transition-colors duration-200 group-hover/room:border-ink-deep group-hover/room:bg-ink-deep group-hover/room:text-cream">

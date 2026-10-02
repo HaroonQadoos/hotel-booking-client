@@ -58,15 +58,18 @@ export function ProfileMenu({
         if (!cancelled) setDetails((d) => ({ ...d, memberSince: joined.format(new Date(profile.createdAt)) }));
       })
       .catch(() => undefined);
-    api
-      .getMyBookings()
-      .then((bookings) => {
+    // Room stays and venue bookings count alike. A venue list that fails to
+    // load counts as none rather than hiding the room figures.
+    Promise.all([api.getMyBookings(), api.getMyVenueBookings().catch(() => [])])
+      .then(([bookings, venueBookings]) => {
         if (cancelled) return;
         const today = todayIso();
         setDetails((d) => ({
           ...d,
-          total: bookings.length,
-          upcoming: bookings.filter((b) => b.status !== 'cancelled' && b.checkOut > today).length,
+          total: bookings.length + venueBookings.length,
+          upcoming:
+            bookings.filter((b) => b.status !== 'cancelled' && b.checkOut > today).length +
+            venueBookings.filter((b) => b.status !== 'cancelled' && b.date.slice(0, 10) >= today).length,
         }));
       })
       .catch(() => undefined);

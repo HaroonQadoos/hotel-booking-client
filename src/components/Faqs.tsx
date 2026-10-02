@@ -26,7 +26,7 @@ const FAQS: { question: string; answer: ReactNode }[] = [
   {
     question: 'My booking says “pending”. Is the room mine?',
     answer:
-      'Yes. A pending booking holds the room exactly as a confirmed one does, so nobody else can take it for those nights. Pending only means payment has not been taken yet.',
+      'Yes. A pending booking holds the room exactly as a confirmed one does, so nobody else can take it for those nights. Pending only means our front desk has not accepted it yet; once they do, it changes to confirmed.',
   },
   {
     question: 'Can I cancel a booking?',

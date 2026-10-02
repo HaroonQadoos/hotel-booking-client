@@ -92,17 +92,16 @@ export function AppLayout() {
 
             <nav className="mx-auto hidden items-center gap-1 sm:flex" aria-label="Main">
               <NavLink
-                to="/"
-                end
-                className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
-              >
-                Rooms
-              </NavLink>
-              <NavLink
                 to="/categories"
                 className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
               >
                 Categories
+              </NavLink>
+              <NavLink
+                to="/venues"
+                className={({ isActive }) => `${navLink} ${isActive ? navActive : navIdle}`}
+              >
+                Venues
               </NavLink>
               <NavLink
                 to="/bookings"
@@ -170,17 +169,16 @@ export function AppLayout() {
           >
             <nav aria-label="Main" className="flex flex-col gap-1">
               <NavLink
-                to="/"
-                end
-                className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
-              >
-                Rooms
-              </NavLink>
-              <NavLink
                 to="/categories"
                 className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
               >
                 Categories
+              </NavLink>
+              <NavLink
+                to="/venues"
+                className={({ isActive }) => `${menuLink} ${isActive ? menuActive : menuIdle}`}
+              >
+                Venues
               </NavLink>
               <NavLink
                 to="/bookings"

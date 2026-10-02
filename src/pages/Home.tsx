@@ -7,6 +7,7 @@ import { Hero } from '../components/Hero';
 import { Notice } from '../components/Notice';
 import { RoomCarousel } from '../components/RoomCarousel';
 import { StayForm } from '../components/StayForm';
+import { VenueTeaser } from '../components/VenueTeaser';
 import { formatDay, formatPrice, plural } from '../format';
 import { useStay } from '../stay';
 
@@ -41,9 +42,10 @@ export function Home() {
     // `stay` is rebuilt from the URL on every render; its parts are stable.
   }, [stay?.checkIn, stay?.checkOut, stay?.guests]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // The catalogue is sorted cheapest-first by the API, so the first room
-  // sets the "from" price. Availability results are sorted the same way.
-  const cheapest = rooms && rooms.length > 0 ? rooms[0].pricePerNight : null;
+  // The API sorts by list price, and a sale can undercut a cheaper room, so
+  // the "from" price is the lowest price a guest would actually pay today.
+  const cheapest =
+    rooms && rooms.length > 0 ? Math.min(...rooms.map((room) => room.effectivePricePerNight)) : null;
 
   const summary = stay
     ? `${formatDay(stay.checkIn)} – ${formatDay(stay.checkOut)} · ${plural(stay.guests, 'guest')}`
@@ -116,6 +118,8 @@ export function Home() {
             stay={stay}
           />
         )}
+
+        <VenueTeaser />
 
         <Faqs />
       </Container>

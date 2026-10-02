@@ -39,6 +39,8 @@ interface CalendarProps {
   onSelect: (iso: string) => void;
   /** Earliest selectable day. */
   min: string;
+  /** Latest selectable day, if bookings only run so far ahead. */
+  max?: string;
   /** The other end of the stay, so the nights between can be shaded. */
   rangeStart?: string;
   rangeEnd?: string;
@@ -46,7 +48,7 @@ interface CalendarProps {
   picking: 'start' | 'end';
 }
 
-export function Calendar({ value, onSelect, min, rangeStart, rangeEnd, picking }: CalendarProps) {
+export function Calendar({ value, onSelect, min, max, rangeStart, rangeEnd, picking }: CalendarProps) {
   const [month, setMonth] = useState(() => monthStart(value || min));
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -55,6 +57,7 @@ export function Calendar({ value, onSelect, min, rangeStart, rangeEnd, picking }
   const start = rangeStart;
   const end = picking === 'end' && hovered && start && hovered > start ? hovered : rangeEnd;
   const canGoBack = month > monthStart(min);
+  const canGoForward = !max || month < monthStart(max);
   // Underlined so the guest has a bearing in the grid.
   const today = todayIso();
 
@@ -73,7 +76,13 @@ export function Calendar({ value, onSelect, min, rangeStart, rangeEnd, picking }
         <p className="font-serif text-[24px] leading-none text-ink" aria-live="polite">
           {monthTitle.format(toDate(month))}
         </p>
-        <button type="button" onClick={() => setMonth(shiftMonth(month, 1))} aria-label="Next month" className={navButton}>
+        <button
+          type="button"
+          onClick={() => setMonth(shiftMonth(month, 1))}
+          disabled={!canGoForward}
+          aria-label="Next month"
+          className={navButton}
+        >
           <Chevron direction="right" />
         </button>
       </div>
@@ -87,7 +96,7 @@ export function Calendar({ value, onSelect, min, rangeStart, rangeEnd, picking }
 
         {monthGrid(month).map((iso) => {
           const outside = iso.slice(0, 7) !== month.slice(0, 7);
-          const disabled = iso < min;
+          const disabled = iso < min || (max !== undefined && iso > max);
           const isStart = iso === start;
           const isEnd = iso === end;
           const inRange = Boolean(start && end && iso > start && iso < end);

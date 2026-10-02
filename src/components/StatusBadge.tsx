@@ -1,7 +1,7 @@
 import type { BookingStatus } from '../api';
 
-// One word, one colour. Pending is brass because it is the ordinary state
-// for now — every booking waits for a payment step that does not exist yet.
+// One word, one colour. Pending is brass because it is where every booking
+// starts — it waits there until the front desk accepts it.
 const styles: Record<BookingStatus, string> = {
   pending: 'border-brass/50 bg-brass/10 text-brass-ink',
   confirmed: 'border-graphite/40 bg-graphite/10 text-graphite',
