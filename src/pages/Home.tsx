@@ -4,6 +4,7 @@ import type { AvailableRoom, Room } from '../api';
 import { Container } from '../components/Container';
 import { Faqs } from '../components/Faqs';
 import { Hero } from '../components/Hero';
+import { HotelMap } from '../components/HotelMap';
 import { Notice } from '../components/Notice';
 import { RoomCarousel } from '../components/RoomCarousel';
 import { StayForm } from '../components/StayForm';
@@ -120,6 +121,8 @@ export function Home() {
         )}
 
         <VenueTeaser />
+
+        <HotelMap />
 
         <Faqs />
       </Container>

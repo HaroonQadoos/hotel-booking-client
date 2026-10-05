@@ -68,6 +68,12 @@ export function formatHour(hour: number): string {
   return `${h % 12 || 12}:00 ${h < 12 ? 'AM' : 'PM'}`;
 }
 
+// The same clock without the ":00", for tight spots like cards: "10 AM".
+export function formatHourShort(hour: number): string {
+  const h = hour % 24;
+  return `${h % 12 || 12} ${h < 12 ? 'AM' : 'PM'}`;
+}
+
 export function formatSlot(startHour: number, endHour: number): string {
   return `${formatHour(startHour)} – ${formatHour(endHour)}`;
 }

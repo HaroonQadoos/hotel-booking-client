@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import * as api from '../api';
 import type { Venue, VenueType } from '../api';
 import { Container } from '../components/Container';
 import { Notice } from '../components/Notice';
-import { SaleBadge, WasPrice } from '../components/Sale';
-import { VENUE_TYPE_LABEL, formatHour, formatPrice, plural } from '../format';
-import { venuePhoto } from '../venuePhoto';
-import { plainText } from '../richText';
+import { VenueCard } from '../components/VenueCard';
+import { VENUE_TYPE_LABEL } from '../format';
 
 const TYPES: VenueType[] = ['conference', 'pool', 'hall'];
 
@@ -116,62 +114,5 @@ export function Venues() {
         )}
       </Container>
     </>
-  );
-}
-
-// The whole card is the link into the venue, as with the room photo cards.
-function VenueCard({ venue }: { venue: Venue }) {
-  return (
-    <li>
-      <Link
-        to={`/venues/${venue.id}`}
-        className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-paper-edge bg-paper text-ink no-underline transition-shadow duration-300 hover:shadow-[0_32px_60px_-30px_rgba(11,22,32,0.5)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
-      >
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <img
-            src={venuePhoto(venue)}
-            alt=""
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
-          <div aria-hidden="true" className="absolute inset-0 bg-linear-to-t from-ink-deep/80 via-ink-deep/10 to-transparent" />
-          {venue.discountActive ? (
-            <SaleBadge percent={venue.discountPercent} className="absolute top-4 right-4" />
-          ) : null}
-          <div className="absolute inset-x-0 bottom-0 p-6">
-            <p className="mb-1 text-[12px] font-medium tracking-[0.14em] text-brass-lit uppercase">
-              {VENUE_TYPE_LABEL[venue.type]}
-            </p>
-            <h2 className="font-serif text-[34px] leading-[1.05] font-normal text-cream">{venue.name}</h2>
-          </div>
-        </div>
-
-        <div className="flex flex-1 flex-col p-6">
-          <p className="mb-6 line-clamp-3 text-[15px] leading-relaxed text-graphite">{plainText(venue.description)}</p>
-
-          <dl className="mt-auto grid grid-cols-3 divide-x divide-paper-edge rounded-2xl border border-paper-edge bg-paper-raised text-center">
-            <div className="px-2 py-3">
-              <dt className="text-[11px] font-medium tracking-[0.12em] text-graphite-soft uppercase">Up to</dt>
-              <dd className="mt-1 font-serif text-[22px] leading-none">{plural(venue.capacity, 'guest')}</dd>
-            </div>
-            <div className="px-2 py-3">
-              <dt className="text-[11px] font-medium tracking-[0.12em] text-graphite-soft uppercase">Per hour</dt>
-              <dd className="mt-1 font-serif text-[22px] leading-none">
-                {venue.discountActive ? (
-                  <WasPrice amount={venue.pricePerHour} className="mr-1 font-sans text-[13px] text-graphite-soft" />
-                ) : null}
-                {formatPrice(venue.effectivePricePerHour)}
-              </dd>
-            </div>
-            <div className="px-2 py-3">
-              <dt className="text-[11px] font-medium tracking-[0.12em] text-graphite-soft uppercase">Open</dt>
-              <dd className="mt-1 text-[14px] leading-[22px]">
-                {formatHour(venue.openingHour)} – {formatHour(venue.closingHour)}
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </Link>
-    </li>
   );
 }

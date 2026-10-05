@@ -85,6 +85,10 @@ export function VenueDetail() {
   // True between picking a start and picking the last hour.
   const [extending, setExtending] = useState(false);
   const [guests, setGuests] = useState(initial.guests);
+  // What is in the guests box while it is being typed in. Kept apart from
+  // `guests` so the box can be briefly empty ("" on the way from 1 to 15)
+  // without the count itself ever being invalid.
+  const [guestsText, setGuestsText] = useState<string | null>(null);
   const [notes, setNotes] = useState(initial.notes);
   const [bookError, setBookError] = useState('');
   const [booking, setBooking] = useState(false);
@@ -267,6 +271,25 @@ export function VenueDetail() {
     }
   }
 
+  const capacity = venue.capacity;
+  // The count typed so far, for the over-capacity warning; 0 while empty.
+  const typedGuests = guestsText === null ? guests : Number(guestsText || 0);
+
+  function changeGuests(next: number) {
+    setGuestsText(null);
+    setGuests(Math.min(capacity, Math.max(1, next)));
+  }
+
+  // Digits only. A number in range takes effect at once, so the price and
+  // checks stay live; one over capacity is held at capacity, and the box
+  // snaps to the real count when it loses focus.
+  function typeGuests(raw: string) {
+    const digits = raw.replace(/\D/g, '').slice(0, 4);
+    setGuestsText(digits);
+    const n = Number(digits);
+    if (digits && n >= 1) setGuests(Math.min(capacity, n));
+  }
+
   const label = VENUE_TYPE_LABEL[venue.type];
   const opening = formatSlot(venue.openingHour, venue.closingHour);
   const lengths =
@@ -328,7 +351,7 @@ export function VenueDetail() {
             </h2>
             <RichText
               value={venue.description}
-              className="mb-10 max-w-[62ch] font-serif text-[24px] leading-[1.35] text-ink sm:text-[28px]"
+              className="mb-10 max-w-[60ch] font-serif text-[20px] leading-[1.5] text-ink sm:text-[22px]"
             />
 
             {venue.amenities.length > 0 ? (
@@ -374,7 +397,9 @@ export function VenueDetail() {
             </dl>
           </article>
 
-          <aside className="rounded-[22px] border border-paper-edge bg-paper px-6 pt-6 pb-3 text-ink shadow-card lg:-mt-40">
+          {/* Pulled up into the banner, so it must be positioned with a z-index: the
+              banner is a positioned element and would otherwise paint over it. */}
+          <aside className="relative z-10 rounded-[22px] border border-paper-edge bg-paper px-6 pt-6 pb-3 text-ink shadow-[0_30px_60px_-30px_rgba(11,22,32,0.45)] lg:sticky lg:top-28 lg:-mt-40">
             {venue.discountActive ? (
               <p className="mb-2 flex items-center gap-2 text-[14px] text-graphite-soft">
                 <WasPrice amount={venue.pricePerHour} />
@@ -458,35 +483,55 @@ export function VenueDetail() {
                         : 'Tap the hour you want to start.'}
                 </p>
 
-                <div className="mb-[15px] flex items-center justify-between gap-3">
-                  <span>
-                    <span id="venue-guests-label" className="block text-[13px] font-medium text-graphite">
+                <div className="mb-[15px]">
+                  <div className="mb-[5px] flex items-baseline justify-between">
+                    <label htmlFor="venue-guests" className="text-[13px] font-medium text-graphite">
                       Guests
+                    </label>
+                    <span
+                      className={`text-[12px] tabular-nums ${typedGuests > venue.capacity ? 'text-rust-ink' : 'text-graphite-soft'}`}
+                      aria-live="polite"
+                    >
+                      {typedGuests > venue.capacity ? `At most ${venue.capacity}` : `Up to ${venue.capacity}`}
                     </span>
-                    <output aria-live="polite" className="text-[15px] text-ink">
-                      {plural(guests, 'guest')}
-                    </output>
-                  </span>
-                  <span className="flex items-center gap-1" role="group" aria-labelledby="venue-guests-label">
+                  </div>
+                  <div className="flex items-center gap-2">
                     <button
                       type="button"
                       className={stepper}
-                      onClick={() => setGuests(Math.max(1, guests - 1))}
+                      onClick={() => changeGuests(guests - 1)}
                       disabled={booking || guests <= 1}
                       aria-label="Fewer guests"
                     >
                       −
                     </button>
+                    <input
+                      id="venue-guests"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      autoComplete="off"
+                      value={guestsText ?? String(guests)}
+                      onChange={(event) => typeGuests(event.target.value)}
+                      onBlur={() => setGuestsText(null)}
+                      onFocus={(event) => event.target.select()}
+                      disabled={booking}
+                      aria-describedby="venue-guests-hint"
+                      className="h-10 min-w-0 flex-1 rounded-card border border-paper-edge bg-paper-raised px-3 text-center text-[16px] text-ink tabular-nums transition-[border-color,box-shadow] duration-[120ms] focus-visible:border-brass focus-visible:ring-[3px] focus-visible:ring-brass/25 focus-visible:outline-none disabled:bg-paper-dim"
+                    />
                     <button
                       type="button"
                       className={stepper}
-                      onClick={() => setGuests(Math.min(venue.capacity, guests + 1))}
+                      onClick={() => changeGuests(guests + 1)}
                       disabled={booking || guests >= venue.capacity}
                       aria-label="More guests"
                     >
                       +
                     </button>
-                  </span>
+                  </div>
+                  <p id="venue-guests-hint" className="mt-[5px] text-[12.5px] text-graphite-soft">
+                    Type a number or use − and +.
+                  </p>
                 </div>
 
                 <div className="mb-[15px]">

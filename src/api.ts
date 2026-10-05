@@ -374,3 +374,20 @@ export function cancelVenueBooking(id: string): Promise<VenueBooking> {
     method: 'PATCH',
   });
 }
+
+// ---------------------------------------------------------------------------
+// Location — set by staff in the dashboard, one for the whole hotel
+
+export interface HotelLocation {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  address: string;
+  /** Sanitised HTML; '' when staff left it empty. */
+  description: string;
+}
+
+/** null until staff set one; the front page then shows no map. */
+export async function getLocation(): Promise<HotelLocation | null> {
+  return (await request<{ location: HotelLocation | null }>('/location')).location;
+}

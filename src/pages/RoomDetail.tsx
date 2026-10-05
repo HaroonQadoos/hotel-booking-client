@@ -205,7 +205,7 @@ export function RoomDetail() {
             </h2>
             <RichText
               value={room.description}
-              className="mb-10 max-w-[62ch] font-serif text-[24px] leading-[1.35] text-ink sm:text-[28px]"
+              className="mb-10 max-w-[60ch] font-serif text-[20px] leading-[1.5] text-ink sm:text-[22px]"
             />
 
             {room.amenities.length > 0 ? (

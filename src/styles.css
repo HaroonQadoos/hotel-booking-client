@@ -84,6 +84,16 @@
   .rich-text ol {
     list-style: decimal;
   }
+  .rich-text li + li {
+    margin-top: 0.45em;
+  }
+  /* Instrument Serif has no bold cut, so the browser smears a fake one.
+     Bold steps into the sans instead, which reads as a crisp label. */
+  .rich-text strong {
+    font-family: var(--font-sans);
+    font-size: 0.8em;
+    font-weight: 600;
+  }
   .rich-text li::marker {
     color: var(--color-brass);
   }
